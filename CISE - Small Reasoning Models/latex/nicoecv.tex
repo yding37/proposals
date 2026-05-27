@@ -1,0 +1,895 @@
+%% start of file `template.tex'.
+%% Copyright 2006-2013 Xavier Danaux (xdanaux@gmail.com).
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License version 1.3c,
+% available at http://www.latex-project.org/lppl/.
+\documentclass[11pt,a4paper,roman]{moderncv}  
+% \documentclass[12pt,a4paper]{moderncv}        % possible options include font size ('10pt', '11pt' and '12pt'), paper size ('a4paper', 'letterpaper', 'a5paper', 'legalpaper', 'executivepaper' and 'landscape') and font family ('sans' and 'roman'),roman
+
+% modern themes
+\moderncvstyle{banking}                            % style options are 'casual' (default), 'classic', 'oldstyle' and 'banking'
+\moderncvcolor{black}                                % color options 'blue' (default), 'orange', 'green', 'red', 'purple', 'grey' and 'black'
+%\renewcommand{\familydefault}{\sfdefault}         % to set the default font; use '\sfdefault' for the default sans serif font, '\rmdefault' for the default roman one, or any tex font name
+%\nopagenumbers{}                                  % uncomment to suppress automatic page numbering for CVs longer than one page
+
+% character encoding
+% \usepackage[utf8]{inputenc}    
+% \usepackage{fontspec}
+% \setmainfont[Ligatures=TeX]{roman}
+% \setmainfont{Times New Roman}
+% \setmainlanguage[variant=british]{english}
+% if you are not using xelatex ou lualatex, replace by the encoding you are using
+%\usepackage{CJKutf8}                              % if you need to use CJK to typeset your resume in Chinese, Japanese or Korean
+
+%\renewcommand*{\namefont}{\fontsize{25}{30}\mdseries\upshape}
+
+% adjust the page margins
+\usepackage[scale=0.78]{geometry}
+%\setlength{\hintscolumnwidth}{3cm}                % if you want to change the width of the column with the dates
+% \setlength{\makecvtitlenamewidth}{3cm}           % for the 'classic' style, if you want to force the width allocated to your name and avoid line breaks. be careful though, the length is normally calculated to avoid any overlap with your personal info; use this at your own typographical risks...
+
+% \usepackage{import}
+
+% personal data
+\name{\Large{Nicole (Tianjiao)}}{Yang}
+%\title{Curriculum Vitae}                               % optional, remove / comment the line if not wanted
+% \address{U.S. Permanent Resident}{}{}% optional, remove / comment the line if not wanted; the "postcode city" and and "country" arguments can be omitted or provided empty
+\phone[mobile]{(805)708-8696}                   % optional, remove / comment the line if not wanted
+% \phone[fixed]{01234 123456}                    % optional, remove / comment the line if not wanted
+                    % optional, remove / comment the line if not wanted
+% \email{tianjiao\_yang@ucsb.edu} 
+\email{nicoley031@gmail.com} 
+% optional, remove / comment the line if not wanted
+\homepage{nicoletyang.github.io}                         % optional, remove / comment the line if not wanted
+\phone[fax]{\href{https://scholar.google.com/citations?user=3zxBZjkAAAAJ&hl=en&oi=sra}{Google Scholar}}  
+
+% \address{}
+% \extrainfo{}   
+\address{U.S. permanent resident \quad Updated Feb, 2026}                 % optional, remove / comment the line if not wanted
+%\photo[64pt][0.4pt]{picture}                       % optional, remove / comment the line if not wanted; '64pt' is the height the picture must be resized to, 0.4pt is the thickness of the frame around it (put it to 0pt for no frame) and 'picture' is the name of the picture file
+%\quote{Some quote}                                 % optional, remove / comment the line if not wanted
+
+% to show numerical labels in the bibliography (default is to show no labels); only useful if you make citations in your resume
+%\makeatletter
+%\renewcommand*{\bibliographyitemlabel}{\@biblabel{\arabic{enumiv}}}
+%\makeatother
+%\renewcommand*{\bibliographyitemlabel}{[\arabic{enumiv}]}% CONSIDER REPLACING THE ABOVE BY THIS
+
+% bibliography with mutiple entries
+%\usepackage{multibib}
+%\newcites{book,misc}{{Books},{Others}}
+%----------------------------------------------------------------------------------
+%            content
+%----------------------------------------------------------------------------------
+\usepackage{lastpage} % Required for LastPage reference
+\usepackage{fancyhdr} % Required for custom headers
+\pagestyle{fancy} % Custom page style
+\fancyhf{} % Clear header and footer
+\rfoot{\thepage/\pageref{LastPage}} % Page number/Total pages
+
+%----icon
+% \usepackage{academicons}
+% \makefield{\aiGoogleScholar}{\url{https://scholar.google.com/citations?user=3zxBZjkAAAAJ&hl=en&oi=sra}}
+
+ % \extrainfo{
+ %        \faGithub\href{https://scholar.google.com/citations?user=3zxBZjkAAAAJ&hl=en&oi=sra}{ Google Scholar} \quad
+ %        \faLinkedin\href{https://www.linkedin.com/in/nicole-t-yang/}{ LinkedIn} \quad
+ %        % \faSkype\href{https://skype.com/abc}{Skype}
+ %        }
+
+\begin{document}
+% \rfoot{\thepage}
+%\begin{CJK*}{UTF8}{gbsn}                          % to typeset your resume in Chinese using CJK
+%-----       resume       ---------------------------------------------------------
+\makecvtitle
+\section{Position}
+
+\cventry{2025-now}{University of Tennessee, Knoxville, Department of Mathematics
+}{Assistant Professor}{Knoxville}{}{}
+% {\setlength\parindent{24pt} {\small{\textit{Department of Electrical Engineering and Computer Science (by courtesy)}}}}
+
+
+
+
+\item{\cventry{2022-2025}{Emory University Department of Mathematics}{Distinguished Visiting Assistant Professor}{Atlanta}{}{}}{Mentor: Lars Ruthotto}
+
+\item{\cventry{2023-2024}{Emory REU Computational Mathematics for Data Science}{Advisor and Executive Board Member}{Atlanta}{}{}}{Topics: Data Science for Social Justice, 2023; Learning from Images, 2024}
+
+% \cventry{2023}{Fulcrum Capital, Research
+% }{Consultant}{Remote}{}{
+% % \begin{cvitems}
+% % \setlength\itemsep{0.09em}
+% % \item \textbullet \ Research in learning algorithms and statistical analysis to design trading strategies
+% % \item \textbullet \ Mathematical modelling for pricing and risk management; Coverage including credit default swap index, options, tranches etc.
+% % \end{cvitems}
+% }
+
+\cventry{2021-2022}{Morgan Stanley, Credit Complex, Fixed Income Division
+}{Strategist}{New York}{}{
+% \begin{cvitems}
+% \setlength\itemsep{0.09em}
+% \item \textbullet \ Research in learning algorithms and statistical analysis to design trading strategies
+% \item \textbullet \ Mathematical modelling for pricing and risk management; Coverage including credit default swap index, options, tranches etc.
+% \end{cvitems}
+}
+
+\subsection{Visiting position}
+
+\cventry{2025-now}{Hosted by Computer Science and Mathematics Division
+}{Oak Ridge National Lab (ORNL) long-term visitor}{Knoxville}{}{
+% \begin{cvitems}
+% \setlength\itemsep{0.09em}
+% \item \textbullet \ Research in learning algorithms and statistical analysis to design trading strategies
+% \item \textbullet \ Mathematical modelling for pricing and risk management; Coverage including credit default swap index, options, tranches etc.
+% \end{cvitems}
+}
+
+\cventry{2026-2027}{Hosted by University of Sydney and University of New South Wales (Pending)
+}{Sydney Mathematical Research Institute (SMRI) international visitor}{Sydney}{}{
+% \begin{cvitems}
+% \setlength\itemsep{0.09em}
+% \item \textbullet \ Research in learning algorithms and statistical analysis to design trading strategies
+% \item \textbullet \ Mathematical modelling for pricing and risk management; Coverage including credit default swap index, options, tranches etc.
+% \end{cvitems}
+}
+
+\section{Education}
+
+%Mathematics\\ \small{Research interests focuses on Portfolio Optimization, Stochastic Games, Machine Learning}
+\item{\cventry{2016-2021}{Ph.D., Statistics with emphasis in Financial Mathematics}{University of California, Santa Barbara}{Santa Barbara}{}{}
+{}}{Advisor: Tomoyuki Ichiba, Committee: Jean-Pierre Fouque, Nils Detering}%add behind the last inside bracket
+
+Thesis: Topics in relative arbitrage, stochastic games and high-dimensional PDEs
+%
+
+\item{\cventry{2016-2018}{M.A., Mathematical Statistics}{University of California, Santa Barbara}{Santa Barbara}{}{}{}}
+%, GPA 3.8/4.0
+% \vspace{4pt}
+
+\cventry{2015}{Exchange, Math \& Statistics}{University of California, Los Angeles}{Los Angeles}{}{} %, GPA 4.0/4.0 
+
+\cventry{2012-2016}{B.Sc., Mathematics \& Applied Mathematics} {Wuhan University}{Wuhan}{}{} 
+
+
+% \section{}
+% \begin{itemize}
+% \item Shuying Drama Association, Wuhan Univ, 2012-2016
+
+% \item Vice president, Math-modelling Association, Wuhan Univ, 2014
+
+% \item Captain, Social work volunteer team on education and female empowerment, Wuhan, 2013
+
+% \small{Second Award in 2014 Undergraduate Volunteer Activity}
+% \end{itemize}
+
+% \section{Professional Development}
+% \begin{itemize}
+%  \item Morgan Stanley PhD Quantitative Finance Mentorship Program, \hspace{3.3cm} New York, 2019
+%  \item Presentation, Society for Industrial and Applied Mathematics (SIAM) FM19, \hspace{1.8cm} Toronto, 2019
+%  \item Presentation, Contagion in financial systems - A Bayesian network approach, \hspace{1.8cm} UCSB, 2018
+% \item Graduate summer school (invited) on Mean Field Games and Applications, IPAM, \hspace{1.2cm} UCLA, 2018
+% \item Summer school (invited) on Operation research and management, \hspace{4cm} SUFE, 2014
+% \end{itemize}
+%Shanghai University of Finance and Economics
+
+%\vspace{6pt}
+
+%\small{Mean feild games and Mckean Vlasov Dynamics, Stochastic Portfolio Theory}
+
+\section{Grants and Awards }
+\begin{itemize}
+\item Rising Star in Data Science (organized by UCSD, U Chicago, Stanford), 2024
+\vspace{1pt}
+    \item Research Fund, Fulcrum Capital, 2023  ($50 \%$ of Total \$ 28,000)
+    \vspace{1pt}
+    \item NSF RTG Postdoctoral Fellowship, 2023-2024
+    \vspace{1pt}
+    \item Pending: Army Research (ARO) - Efficient 3D Perception (Co-PI) \$400,000 
+    \item Pending: NSF Statistics (sole-PI) \$429,000
+    \item Pending: NSF CISE RI: Efficient Video Synthesis (lead-PI)  \$600,048
+
+    \item Student grants: see Student Awards section.
+
+\subsection{Proposals in preparation}
+
+\begin{itemize}
+\item NSF Computational and Data-Enabled Science and Engineering (CDS\&E) (lead-PI) 2026
+% 
+%     \item Amazon Research Awards, 2025
+\end{itemize}
+
+
+\end{itemize}
+
+
+
+\section{Research Interests}
+I am broadly interested in Stochastic Analysis, Scientific Machine Learning, and Uncertainty Quantification; with emphasis on the intersection of dynamical systems and learning theory. 
+\begin{itemize}
+    \item Probability Theory, Stochastic Filtering, Time Series Analysis
+    \item Stochastic Control and Differential Games, Inverse problems in Dynamical Systems
+    \item Mathematical Foundations in Generative Modeling, Operator learning
+    \item Stochastic Portfolio Theory, Financial Modelling
+    % \item Scientific Computing and Inverse Problems
+    % with applications in Health, Epidemiology, Environmental and Social Justice
+
+    
+\end{itemize}
+
+\section{Publications}
+\subsection{Main Publications \small{\ \ [\textbf{$\star$ indicates first / equal first author}]}}
+\begin{itemize}
+\vspace{5pt}
+\item Jacobian-Free Backpropagation for High-Dimensional Optimal Control with Implicit Hamiltonians, E. Elphman, D. Verma, N. Yang, S. Wu Fung, S. Osher. arXiv:2510.00359, To appear, \textit{American Control Conference 2026}.
+\vspace{5pt}
+\item \textbf{$\star$} Path Learning of Stochastic Dynamical Systems with Partial Observations, N. Yang, Submitted, \textit{SIAM/ASA Journal on Uncertainty Quantification}.
+\vspace{5pt}
+\item On the Convergence of Jacobian-Free Backpropagation for High-Dimensional Control with Implicit Hamiltonians, E. Elphman, D. Verma, N. Yang, S. Wu Fung, S. Osher. Submitted, \textit{International Conference on Machine Learning (ICML)}
+\vspace{5pt}
+\item \textbf{$\star$} Relative Arbitrage Opportunities with Interactions among $N$ investors,
+T. Ichiba, N. Yang. Minor revision, \textit{Mathematical Finance, 2026}. 
+\vspace{5pt}
+\item \textbf{$\star$} Mixed Precision Training of Neural ODEs, E. Celledoni, B. Owren, L. Ruthotto, N. Yang. Submitted, \textit{SIAM Journal on Scientific Computing (SISC)}.
+% SISC. 2025.
+% \vspace{5pt}
+% \item \textbf{$\star$} Learning stochastic dynamical systems with partial observations, N. Yang, Submitted, Journal of Machine Learning Research. 2025.
+\vspace{5pt}
+\item \textbf{$\star$} Relative Arbitrage Opportunities in an Extended Mean Field System, arXiv:2311.02690, N. Yang, T. Ichiba. To appear, \textit{Annals of Finance}, 2026.
+\vspace{5pt}
+\item \textbf{$\star$}  Multilevel Diffusion: Infinite Dimensional Score-Based Diffusion Models for Image Generation, P. Hagemann, S. Mildenberg, L. Ruthotto, G. Steidl, N. Yang. \textit{SIAM Journal on Mathematics of Data Science (SIMODS), 2025}.
+\vspace{5pt}
+\item \textbf{$\star$} Finding nonnegative minimal solutions of Cauchy PDEs in volatility stabilized markets, N. Yang, T. Ichiba. \textit{SIAM Journal on Financial Mathematics (SIFIN)}, 2025.
+\vspace{5pt}
+\item On learning physical neural representations of dynamical data, J. Park, N. Yang, N. Chandramoorthy. \textit{In Proceedings of the 38th International Conference on Neural Information Processing Systems (NeurIPS 2024)}.
+\vspace{5pt}
+\item \textbf{$\star$} Reflected Schr\"{o}dinger Bridge for constrained generative modelling, W. Deng, Y. Chen, N. Yang, H. Du, Q. Feng, R. TQ Chen. The Conference on Uncertainty in Artificial Intelligence (\textit{UAI 2024}), \textbf{Oral}. Acceptance rate 3.8\%.
+\vspace{5pt}
+\item \textbf{$\star$} On Convergence of Approximate Schr\"{o}dinger Bridge with Bounded Cost, Y. Chen, W. Deng, N. Yang, H. Du, Q. Feng,  R. TQ Chen. \textit{ICML 2023}, New Frontiers in Learning, Control, and Dynamical Systems Workshop
+\vspace{5pt}
+\item Provably Convergent Schr\"{o}dinger Bridge with Applications to Probabilistic Time Series Imputation, Y. Chen et al. \textit{In Proceedings of the 40th International Conference on Machine Learning (ICML 2023)}. 
+\vspace{5pt}
+\item Predicting Video Affect via Induced
+Affection in the Wild, Y. Ding, R. Kumaran, N.Yang, T. H\"ollerer. \textit{In Proceedings of the International Conference on Multimodal Interaction (ICMI 2020)} 
+\vspace{5pt}
+\item \textbf{$\star$} Dissertation: Topics in relative arbitrage, stochastic games and high-dimensional PDEs
+\vspace{5pt}
+\item \textbf{$\star$} Eradicating Ebola - SEIFR Disease Model and Clustering Analysis, N. Yang, Q. Lu, Y. Huang, \textit{Journal of Luojia Mathematics, 2016(6)}.
+\vspace{5pt}
+% {}{}
+% {
+% \begin{cvitems}
+% \setlength\itemsep{0.09em}
+% \item \textbullet \ Meritorious Winners (Global Top 2\%) of The Mathematical Contest in Modeling (MCM)
+\end{itemize}
+
+\subsection{Advised publications \small{\ \ [* indicates senior author]}}
+\begin{itemize}
+\vspace{3pt}
+\item * Fairness in Facial Recognition with Distribution shifts. Mentee: Gianluca Barone, Aashrit Cunchala, and Rudy Nunez. \textit{SIAM undergraduate research (SIURO) 2024}. DOI: 10.1137/24S1649848
+\vspace{1pt}
+\hspace{0.5cm}- Poster: \textit{NeurIPS 2023} Algorithmic Fairness through the Lens of Time Workshop
+\vspace{3pt}
+\item * Learning with Label Noise and Disagreement, K. Jacobs, N. Yang, Y. Ding. \textit{Under revision, The 64th Annual Meeting of the Association for Computational Linguistics (ACL 2026)}.
+\end{itemize}
+% \section{Research \& Publications}
+
+% \cventry{}{ArXiv:2006.15158 with T. Ichiba. \textit{In preparation of submission for Mathematical Finance}. (First author)}{Relative Arbitrage Opportunities in N Investors and Mean-Field Regimes}{}{}{
+% \begin{cvitems}
+% \setlength\itemsep{0.09em}
+% \item \textbullet \ Modelled a portfolio optimization system in a market sensitive to the impact of $N$ competitive investment entities of interest. 
+% %Theorized a methodology for 
+% %\item \textbullet \ Formulate the market dynamics as a Markovian process of itself and trading volume of the investors.
+% \item \textbullet \ Derived an optimization framework that is free of risk-neutral assumptions and the drift estimation of market and investors dynamics. Proved the best arbitrage as the unique Nash equilibrium of a $N$-player game. 
+% \end{cvitems}}
+
+% \cventry{}{With T. Ichiba. \textit{In preparation}. (First author)}{Deep-learning based Solutions for High Dimensional PDEs in Relative Arbitrage problems}{}{}{
+% \begin{cvitems}
+% \setlength\itemsep{0.09em}
+% % \item \textbullet \
+% %  Incorporated the current model with Cover's universal portfolio for future algorithmic portfolio optimization.
+% \item \textbullet \ Conducted a mesh-free algorithm to tackle high-dimension PDE with multiple solutions. Applied the technique to learn optimal arbitrage opportunities as non-negative minimal solution of a Cauchy problem.
+% \item \textbullet \ Derived a grid based solution for relative arbitrage in volatility stabilized market models using Bessel processes. 
+% \end{cvitems}}
+
+% %\vspace{3pt}\small{Incorporating mean field games and stochastic portfolio theory to analyze optimal arbitrage under model uncertainty, looking into both the finite and infinite player games
+% %\small{Based on Quantile hedging and benchmark method,  optimal arbitrage under model uncertainty, looking into both the finite and infinite player games}
+
+% % \item{
+% % \cventry{2019}{\textbullet\ Ongoing project on applying neural network to calibrate market models with mean field interactions}{Calibration with Neural Networks}{UCSB}{}{\small{\textbullet\ Developing neural network based calibration methods so that a daily online calibration can be transformed into an offline learning phase and an online  evaluation phase to solve the tractability and capacity in calibration.}}}
+
+% \vspace{3pt}
+% \cventry{}{Proceedings of the International Conference on Multimodal Interaction (2020) with Y. Ding, R. Kumaran, T. Höllerer.
+% }{Predicting Video Affect via Induced Affection in the Wild}{}{}
+% {
+% \begin{cvitems}
+% \setlength\itemsep{0.09em}
+% \item \textbullet \ Learned a representation of the reactions for videos in the form of textual comments with the video ratings as a weakly supervised signal.
+% \item \textbullet \ Improved Variational Auto-Encoder by Gaussian mixtures and achieved better predictions of video affect with unlabeled public reactions.
+% \end{cvitems}
+% }
+
+
+
+% \vspace{3pt}
+% \cventry{}{Journal of Luojia Mathematics, 2016(6), with Q. Lu, Y. Huang.}{Eradicating Ebola - SEIFR Disease Model and Clustering Analysis}
+% {}{}
+% {
+% \begin{cvitems}
+% \setlength\itemsep{0.09em}
+% \item \textbullet \ Meritorious Winners (Global Top 2\%) of The Mathematical Contest in Modeling (MCM)
+% \item \textbullet \ Simulated the epidemic spread by improving SIR differential equations model to analyze and predict the transmission of Ebola.
+% \item \textbullet \ Determined the optimal location of supply station through clustering analysis. Obtained the transportation of medicine with the least cost.
+% \end{cvitems}
+% }
+
+
+\section{Work in progress \small{\ \ [* indicates first or senior author]}}
+\begin{itemize}
+\item * Continuous Time Reinforcement learning through stochastic control and filtering, N. Yang, Y-J. Huang
+\item * Derivative-free Low-Precision training. N. Yang, L. Ruthotto. 
+%\textit{In Submission}.
+% \item * Neural Filtering in Stochastic Dynamical Systems. N. Yang, L. Ruthotto. %\textit{In Submission}.
+\vspace{2pt}
+\item * Mean Field Games under Knightian uncertainty. N. Yang, T. Ichiba. 
+%\textit{In preparation}.
+% \item * Deep Learning Approaches to Stochastic Growth Models in Infinite Time Horizon. N. Yang, Yad Selvakumar, Juan F. Rubio-Ram\'{i}rez. \textit{In preparation}.
+% \vspace{2pt}
+% \item Mixed Precision Neural ODEs, L. Ruthotto, E. Celledoni, B. Owren, N. Yang. \textit{In submission}.
+\vspace{2pt}
+% \vspace{2pt}
+\subsection{Advised projects}
+\item * Optimizing Image Acquisition with conditional OT-Flow. (Emory REU)
+\end{itemize}
+
+
+% \section{Research \& Publications}
+
+% \cventry{}{ArXiv:2006.15158 with T. Ichiba. \textit{In preparation of submission for Mathematical Finance}. (First author)}{Relative Arbitrage Opportunities in N Investors and Mean-Field Regimes}{}{}{
+% \begin{cvitems}
+% \setlength\itemsep{0.09em}
+% \item \textbullet \ Modelled a portfolio optimization system in a market sensitive to the impact of $N$ competitive investment entities of interest. 
+% %Theorized a methodology for 
+% %\item \textbullet \ Formulate the market dynamics as a Markovian process of itself and trading volume of the investors.
+% \item \textbullet \ Derived an optimization framework that is free of risk-neutral assumptions and the drift estimation of market and investors dynamics. Proved the best arbitrage as the unique Nash equilibrium of a $N$-player game. 
+% \end{cvitems}}
+
+% \cventry{}{With T. Ichiba. \textit{In preparation}. (First author)}{Deep-learning based Solutions for High Dimensional PDEs in Relative Arbitrage problems}{}{}{
+% \begin{cvitems}
+% \setlength\itemsep{0.09em}
+% % \item \textbullet \
+% %  Incorporated the current model with Cover's universal portfolio for future algorithmic portfolio optimization.
+% \item \textbullet \ Conducted a mesh-free algorithm to tackle high-dimension PDE with multiple solutions. Applied the technique to learn optimal arbitrage opportunities as non-negative minimal solution of a Cauchy problem.
+% \item \textbullet \ Derived a grid based solution for relative arbitrage in volatility stabilized market models using Bessel processes. 
+% \end{cvitems}}
+
+% %\vspace{3pt}\small{Incorporating mean field games and stochastic portfolio theory to analyze optimal arbitrage under model uncertainty, looking into both the finite and infinite player games
+% %\small{Based on Quantile hedging and benchmark method,  optimal arbitrage under model uncertainty, looking into both the finite and infinite player games}
+
+% % \item{
+% % \cventry{2019}{\textbullet\ Ongoing project on applying neural network to calibrate market models with mean field interactions}{Calibration with Neural Networks}{UCSB}{}{\small{\textbullet\ Developing neural network based calibration methods so that a daily online calibration can be transformed into an offline learning phase and an online  evaluation phase to solve the tractability and capacity in calibration.}}}
+
+% \vspace{3pt}
+% \cventry{}{Proceedings of the International Conference on Multimodal Interaction (2020) with Y. Ding, R. Kumaran, T. Höllerer.
+% }{Predicting Video Affect via Induced Affection in the Wild}{}{}
+% {
+% \begin{cvitems}
+% \setlength\itemsep{0.09em}
+% \item \textbullet \ Learned a representation of the reactions for videos in the form of textual comments with the video ratings as a weakly supervised signal.
+% \item \textbullet \ Improved Variational Auto-Encoder by Gaussian mixtures and achieved better predictions of video affect with unlabeled public reactions.
+% \end{cvitems}
+% }
+
+
+
+% \vspace{3pt}
+% \cventry{}{Journal of Luojia Mathematics, 2016(6), with Q. Lu, Y. Huang.}{Eradicating Ebola - SEIFR Disease Model and Clustering Analysis}
+% {}{}
+% {
+% \begin{cvitems}
+% \setlength\itemsep{0.09em}
+% \item \textbullet \ Meritorious Winners (Global Top 2\%) of The Mathematical Contest in Modeling (MCM)
+% \item \textbullet \ Simulated the epidemic spread by improving SIR differential equations model to analyze and predict the transmission of Ebola.
+% \item \textbullet \ Determined the optimal location of supply station through clustering analysis. Obtained the transportation of medicine with the least cost.
+% \end{cvitems}
+% }
+
+\section{Invited Talks}
+\begin{itemize}
+\item Research Exchanges in the Mathematics of Deep Learning with Applications, Horizon Europe framework programme, Trondheim, Norway, 2026 (upcoming)
+\item University of California, Santa Barbara, PSTAT, 2026 (upcoming)
+\item Arizona State University, Computational Math seminar, 2026 (upcoming)
+\item SIAM Conference on Optimization, Edinburgh, 2026 (upcoming)
+\item SIAM Conference on Uncertainty Quantification, Minneapolis, 2026 (upcoming)
+\item Oak Ridge National Lab (ORNL) Core Universities AI Workshop, 2025
+\item SIAM Conference on Financial Math, Miami, 2025 
+\item INFORMS Applied Probability Society Conference, Atlanta, 2025
+\item NSF computational math meeting, Salt Lake City, 2025
+\item SIAM Southeastern Atlantic Section Conference, Knoxville, 2025 
+\item SIAM Conference on Computational Science and Engineering, Fort Worth, 2025 
+\item Joint Mathematics Meetings (JMM), Seattle, 2025
+\item The Rising Stars in Data Science, Hal{\i}c{\i}o\u{g}lu Data Science Institute (HDSI), University of California, San Diego, 2024
+\item SIAM Conference in Mathematics of Data Science, Atlanta, 2024 
+\item University of Maryland, College Park, Numerical Analysis seminar, 2024
+% \item Bachelier World Congress, Rio de Janeiro, 2024 (cancelled for visa reasons)
+\item SIAM Conference in Imaging Science, Atlanta, 2024
+\item Georgia Institute of Technology, Applied and Computational Math Seminar, Atlanta, 2024 
+\item SIAM Conference in Optimization, Seattle, 2023
+\item SIAM Conference in Financial Math and Engineering, Philadelphia, 2023
+\item SIAM Annual Meeting, Pittsburgh, 2022
+\item Computational Math Seminar, Emory University, virtual, 2022
+\item Joint Mathematics Meetings (JMM), virtual, 2022 (Main Speaker Tomoyuki Ichiba)
+\item Western Conference on Mathematical Finance, virtual, 2021
+\item Bachelier Finance Society One World Talk Series, virtual, 2021 (Main Speaker Tomoyuki Ichiba)
+\item Statistical methods in Finance (StatFin), virtual, 2021 (Main Speaker Tomoyuki Ichiba)
+\item Center for Financial Mathematics and Actuarial Research, virtual, 2020
+\item International Conference on Multimodal Interaction, virtual, 2020 (Main Speaker Yi Ding)
+\item SIAM Conference in Financial Math and Engineering, Toronto, 2019
+\item Center for Financial Mathematics and Actuarial Research, Santa Barbara, 2019
+\end{itemize}
+\subsection{\textbf{Invited Mini-course}}
+\begin{itemize}
+\item Probabilistic Foundations of Generative Diffusion Models, University of California, Santa Barbara (UCSB), 2026
+\item Mini-course on Neural Differential Equations, Early graduate research in applied mathematics, American Institute of Mathematics (AIM), Caltech, 2025
+\end{itemize}
+
+\section{Organized sessions and meetings}
+\begin{itemize}
+\item SIAM Conference on Mathematics of Data Science, Mini-symposium on "Stochastic Transport in Finite and Infinite Dimensional Generative Models", co-organized with Nisha Chandramoorthy and Benjamin Zhang, 2025 (1 session)
+\item SIAM Conference on Uncertainty Quantification, Mini-symposium on "Bayesian inverse problems: Theory and Applications", co-organized with Malena Espanol, 2026 (3 sessions)
+\item SIAM Conference on Optimization, Mini-symposium on "Measure transport and large population systems", co-organized with Gokce Dayanikli, 2026 (2 sessions, pending)
+    \item Computational and Data Enabled Science (CODES) seminar, Emory University
+    \item Center for Financial Mathematics and Actuarial Research, Deep learning in Mathematical Finance, UC Santa Barbara
+\end{itemize}
+
+% \vspace{3pt}
+% \cventry{2019}{Team project on the explicit initialization and the convergence region of (stochastic) gradient EM}{Population and sample-based analysis on EM Algorithms and contractivity to MLE}{UCSB}{}
+% {
+% \begin{cvitems}
+% \setlength\itemsep{0.09em}
+% \item \textbullet \  Characterized conditions such that EMs are contractive to the global optimum, when initialized in a basin around MLE.
+% \item \textbullet \ Simulated Gaussian Mixture Model and Mixtures of Regressions by EM and stochastic gradient EM algorithm.
+% \item \textbullet \ Exploited that the geometric convergence rate of EMs increases when the Signal-to-Noise ratio increases.
+% \end{cvitems}
+% }
+
+
+% \vspace{3pt}
+% \item{
+% \cventry{2015}{\textbullet\ Team leader of a group of 5. First award, National Undergraduate Research Program.}{Quantitative Investment based on Neural Networks}{WHU}{}{\textbullet\ Discussed and assigned tasks to team members. Modelled options selection and developed improvement of RBF NN by the combination of time series and modifying the number of hidden layers}}
+
+% \vspace{3pt}
+% \item{
+% \cventry{2015}{Analyzing the behavior of SPI in asymptotic and non-asymptotic regime}{Stochastic Proximal Iteration versus Stochastic Gradient Descent}{UCLA}{}{}}
+%\vspace{3pt}\small{Theoretically and empirically analyzing the behavior of SPI in asymptotic and non-asymptotic regime and comparing it to Stochastic Gradient Descent in stability and computational cost}
+
+  
+% \vspace{5pt}
+% \item{
+% \cventry{2014}{Project of Multi-scale Analysis, supervised by Prof. Zhijian Yang}{Three dimensional molecular statics simulation}{Wuhan Univ.}{}{\vspace{3pt}\small{Analyzing the equilibrium of molecules, and applied Quasi-continuum method to simulate molecular static models. Discussed the existence of “ghost force”, resulting from multi-levels of physical descriptions}}}
+  
+% \end{itemize}
+
+% \subsection{Data Analytics and Math Competitions}
+% \begin{itemize}
+
+% \item{
+% \cventry{2018}{Two Sigma data competition. Modelling by Neural Networks and LSTM}{Use news analytics to predict stock price performance}{UCSB \& UCSD}{}{}}
+%\vspace{3pt}\small{Based on market data and news data (hdf5), using Neural Networks, LSTM and other data analytics techniques to predict stock prices under the influence of news in Python}
+
+\section{Student Awards}
+\begin{itemize}
+
+% \item National Science Foundation Award, NSF DMS -2008427, “Large Scale Interactions in Financial Markets”, July 2020-June 2023 (Co-PI)
+
+% \vspace{1pt}
+
+\item Registered Securities Representative (FINRA SIE, Series 7, Series 63), 2022
+
+\vspace{1pt}
+
+% \item National Science Foundation Award, NSF DMS -1615229, “Information and Stochastic Differential Equations in Financial Markets”, July 2016 - June 2020 (Co-PI)
+
+% \vspace{1pt}
+
+\item{ UCSB PSTAT Graduate Student Travel Grant, 2020}
+
+\vspace{1pt}
+
+\item{ UCSB Doctoral Student Conference Travel Grant, 2019}
+
+\vspace{1pt}
+
+\item{ UCSB PSTAT Graduate Student Travel grant, 2018}
+
+\vspace{1pt}
+
+\item{Western Conference on Mathematical Finance doctoral student grant, 2018}
+
+\vspace{1pt}
+\item Meritorious Winners (Global Top 10\%) of The Mathematical Contest in Modeling, 2016
+\vspace{1pt}
+\item{First Award of National Undergraduate Innovation Research Program, 2015-2016}
+
+\vspace{1pt}
+
+\item Meritorious Winners (Global Top 10\%) of The Mathematical Contest in Modeling, 2015
+% \begin{itemize}
+%     \item "Eradicating Ebola - SEIFR Disease Model and Clustering Analysis", \textbf{published} on Journal of Luojia Mathematics, 2016
+% \end{itemize}
+
+\vspace{1pt}
+
+\item{Wuhan University First Class Scholarship, 2015}
+
+\vspace{1pt}
+
+\item Second Prize (National Top 5\%), Contemporary Undergraduate Mathematical Contest in Modelling, 2014
+
+\vspace{1pt}
+
+\item Wuhan University Outstanding Student, 2013-2015
+
+\end{itemize}
+
+
+\section{Industry Experience}
+\vspace{1pt}
+
+%\begin{itemize}
+\cventry{11/2022 - 07/2023}{Portfolio optimization and deep learning research
+}{Research, Fulcrum Capital}{Remote}{}{
+% \begin{cvitems}
+% \setlength\itemsep{0.09em}
+% \item \textbullet \ Research in learning algorithms and statistical analysis to design trading strategies
+% \item \textbullet \ Mathematical modelling for pricing and risk management; Coverage including credit default swap index, options, tranches etc.
+% \end{cvitems}
+}
+
+\cventry{07/2021 - 07/2022}{Machine learning and data-driven analytics in credit derivatives trading
+}{Quantitative Strategist, Morgan Stanley}{New York}{}{
+% \begin{cvitems}
+% \setlength\itemsep{0.09em}
+% \item \textbullet \ Research in learning algorithms and statistical analysis to design trading strategies
+% \item \textbullet \ Mathematical modelling for pricing and risk management; Coverage including credit default swap index, options, tranches etc.
+% \end{cvitems}
+}
+
+\cventry{06/2020 - 08/2020}{Data-driven decision making for CDS index tranches market
+}{Quantitative Finance Summer Associate, Morgan Stanley}{New York}{}{}
+
+%\textbullet\ Teaching and interacting with class(20-40 people) and with students 1-on-1. Holding office hours to discuss insights about students' class project. Working with the instructor to design the class contents.
+\vspace{2pt}
+% \small{Undergraduate level: 
+% Statistics(Winter 2017,2018); Statistics for Economics(Fall 2016), Probability and Statistics(Spring, Summer 2017, Summer 2018), Mathematics of Fixed Income Markets(Fall 2017, Spring 2018)
+% \\
+% Graduate level: Time series(Spring, Fall 2018, Winter 2019)}
+
+
+% \cventry
+% {10/2017-11/2017}
+% {Time Series research of Network Users Volume Prediction}
+% {Quantitative Researcher, LingCloud Technology Limited}
+% {Shanghai}{}
+% { % Description(s) of tasks/responsibilities
+% }
+
+% \cventry
+% {6/2013-7/2013}
+% {Mid-Frequency E-Trading research and platform development}
+% {Investment Researcher, RuiQi Futures}
+% {Nanchang}{}
+% { % Description(s) of tasks/responsibilities
+% }
+
+% \newpage
+
+\section{Teaching, Mentoring, and Outreach}
+\begin{itemize}
+\item \emph{Instructor:} 
+\begin{itemize}
+\item \textbf{PhD level}: Statistical learning, 2025-2026
+
+(Class size: 15, covers an introduction to measure-theoretic probability, statistical inference, and applications in generative models, University of Tennessee, Knoxville);
+
+    \item \textbf{Upper Undergrad level}: Mathematical Statistics I-II, 2022-2023
+    
+    (Class size: 20-60, Emory University); 
+    \item \textbf{Lower Undergrad level}: Linear Algebra, 2024
+    
+    (Class size: 40, Emory University)
+\end{itemize}
+\item \emph{Guest Instructor:} Linear Regression (2 Classes, Winter 2020, UCSB)
+
+\vspace{1pt}
+
+\item \emph{Graduate-level Teaching Assistant:}   Time Series Analysis (Spring, Fall 2019, 2020, UCSB) 
+
+\vspace{1pt}
+
+\item \emph{Undergraduate-level Teaching Assistant}, UCSB: 
+
+    \vspace{1pt}
+    
+\begin{itemize}
+\item Advanced Regression Models (Winter 2020, 2021) 
+
+\item Mathematics of Fixed Income Markets (Fall 2017, Spring 2018)
+
+\item Mathematical Statistics (Winter 2017,2018)
+\item Stochastic processes (Fall 2018)
+\item Probability and Statistics (Spring, Summer 2017, Summer 2018) 
+
+\item Statistics for Economics (Fall 2016)
+\end{itemize}
+\vspace{1pt}
+
+\item \emph{Mentor:}
+\begin{itemize}
+\item Bryan Walker, PhD student in Mathematics, University of Tennessee, Nov 2025 - now
+\item Quanyou Zhang, PhD student in Material Science, University of Tennessee, Nov 2025 - now
+\item Nela Riddle, Indiana University Bloomington, June 2024 - 2025
+\item Anish Mitagar, The University of Massachusetts Amherst, June 2024 - 2025
+\item Spiros Manolas, Stony Brook University, June 2024 - 2025
+% \item Xingjian Li, PhD student in Emory University, October 2023 - Present
+\item Kevin Jacobs, undergraduate in Georgia Institute of Technology, GA, September 2023 - Present
+\item Luca Barone, undergraduate in Rowan University, Emory, May 2023 - 2025, (Best poster award, Emory REU, now PhD student at Rochester Institute of Technology)
+\item Aashrit Cunchala, undergraduate in University of Pittsburgh, Emory, May 2023 - 2025, (Best poster award, Emory REU, now Master student at Massachusetts Institute of Technology)
+\item Rudy Nunez, undergraduate in Emory University, Emory, May 2023 - 2024, (Best poster award, Emory REU)
+\item Jeongjin Park, Master student in Georgia Tech, Emory, November 2023 - 2025 
+\item Paul Hagemann, PhD student in TU Berlin, Emory, October 2022 - 2025 
+\item  Ruby Cai, PhD student in University of Chicago, Morgan Stanley, June 2022 
+    \item Victoria Uribe, PhD student in Arizona State University, Morgan Stanley, May 2022 
+\end{itemize}
+
+\item \emph{Volunteer:} education and female empowerment for rural elementary schools in Sichuan , 2013
+\end{itemize}
+
+\section{Service and Memberships}
+\subsection{Reviewer}
+\begin{itemize}
+\item Journal of Machine Learning Research (JMLR)
+\item SIAM Journal on Scientific Computing (SISC)
+\item SIAM Journal on Imaging Science (SIIMS)
+\item Annual Conference on Neural Information Processing Systems (NeurIPS)
+\item Computer Methods in Applied Mechanics and Engineering (CMAME)
+\end{itemize}
+\subsection{Service}
+\begin{itemize}
+% \item Chair (research advisor), honor students at Emory University
+\item University of California, Santa Barbara PSTAT Alumni Panel
+    \item Postdoctoral Council for Diversity at Emory University
+\end{itemize}
+\subsection{Memberships}
+\begin{itemize}
+\item Society for Industrial and Applied Mathematics (SIAM) 
+\item American Mathematical Society (AMS)
+\item Association for Women in Mathematics (AWM)
+\end{itemize}
+
+% \newpage
+% \section{Personal information}
+
+\section{References}
+\begin{itemize}
+    \item \textbf{Lars Ruthotto}
+    
+    Winship Distinguished Associate Professor
+    
+    Department of Mathematics and Computer Science
+    
+    Emory University
+
+    \url{lruthotto@emory.edu} 
+    
+    
+    \item \textbf{Tomoyuki Ichiba}
+    
+    Professor and Department Chair
+    
+    Department of Statistics \& Applied Probability
+
+    
+    University of California Santa Barbara
+
+    \url{ichiba@pstat.ucsb.edu}
+    
+    \item \textbf{Raya Feldman}
+    
+    Associate Professor
+    
+    Department of Statistics \& Applied Probability
+    
+    University of California Santa Barbara
+
+    \url{feldman@pstat.ucsb.edu}
+
+        \item \textbf{Juan F. Rubio-Ram\'{i}rez}
+    
+    Charles Howard Professor 
+    
+    Department of Economics
+    
+    Emory University
+    
+    \url{juan.rubio-ramirez@emory.edu}
+
+% \item \textbf{Nisha Chandramoorthy}
+
+% Assistant Professor
+
+% Department of Statistics
+
+% The University of Chicago
+
+% \url{nishac@uchicago.edu}
+    
+\end{itemize}
+% % \section{Academic Activities (Invited)}
+% % \begin{itemize}
+
+% % \item SIAM University of California, Santa Barbara Student Chapter, 2016-2021
+
+% % \item Joint Mathematics Meetings, Denver, 2020
+
+% % \item Co-Organizer, UCSB PSTAT reading group -- Financial Models and Stochastic Processes, Santa Barbara, 2019
+
+% % \item Southern California Probability Symposium, Los Angeles, 2019
+
+% % \item Leader of study groups in computational statistics and Bayesian networks, Santa Barbara, 2018-19
+
+% % \item UCSB PSTAT grad research showcase, Santa Barbara, 2018
+
+% % \item Western Conference on Mathematical Finance, Los Angeles, 2018
+
+% % \item UCLA IPAM Graduate Summer School : Mean Field Games and Applications, Los Angeles, 2018
+
+% % \item Summer School in Management Science and Information, Shanghai University of Finance and Economics, Shanghai, 2015
+% % \end{itemize}
+
+
+% % %
+% % %\small{\textbullet\ Analyzed and predicted the network traffic by time series approaches. The model constructed fits well for the history of data and the performance of prediction is good.
+
+% % % \cventry{06/2014-07/2014}{Project in Share Price Index(SPI) Futures in CSI 300 (IF1410, IF1411, IF1412)}{Investment Research Associate, Rich Futures Brokerage}{Jiangxi, China}{}{
+% % % \begin{cvitems}
+% % % \setlength\itemsep{0.09em}
+% % % \item \textbullet \ Examined the efficient market hypothesis of high-frequency Chinese SPI futures market by serial correlation and unit root test.
+% % % \item \textbullet \ Designed a data interface between WIND live real-time financial data terminal and MATLAB to get tick dataset.
+% % % \item \textbullet \ Performed data cleaning and added the volume share slippage model to take the slippage effect into account.
+% % % \end{cvitems}
+% % % }
+
+
+% % % \vspace{3pt}
+% % % \cventry{2019}{Team project on the explicit initialization and the convergence region of (stochastic) gradient EM}{Population and sample-based analysis on EM Algorithms and contractivity to MLE}{UCSB}{}
+% % % {
+% % % \begin{cvitems}
+% % % \setlength\itemsep{0.09em}
+% % % \item \textbullet \  Characterized conditions such that EMs are contractive to the global optimum, when initialized in a basin around MLE.
+% % % \item \textbullet \ Simulated Gaussian Mixture Model and Mixtures of Regressions by EM and stochastic gradient EM algorithm.
+% % % \item \textbullet \ Exploited that the geometric convergence rate of EMs increases when the Signal-to-Noise ratio increases.
+% % % \end{cvitems}
+% % % }
+
+
+% % % \vspace{3pt}
+% % % \item{
+% % % \cventry{2015}{\textbullet\ Team leader of a group of 5. First award, National Undergraduate Research Program.}{Quantitative Investment based on Neural Networks}{WHU}{}{\textbullet\ Discussed and assigned tasks to team members. Modelled options selection and developed improvement of RBF NN by the combination of time series and modifying the number of hidden layers}}
+
+% % % \vspace{3pt}
+% % % \item{
+% % % \cventry{2015}{Analyzing the behavior of SPI in asymptotic and non-asymptotic regime}{Stochastic Proximal Iteration versus Stochastic Gradient Descent}{UCLA}{}{}}
+% % %\vspace{3pt}\small{Theoretically and empirically analyzing the behavior of SPI in asymptotic and non-asymptotic regime and comparing it to Stochastic Gradient Descent in stability and computational cost}
+
+  
+% % % \vspace{5pt}
+% % % \item{
+% % % \cventry{2014}{Project of Multi-scale Analysis, supervised by Prof. Zhijian Yang}{Three dimensional molecular statics simulation}{Wuhan Univ.}{}{\vspace{3pt}\small{Analyzing the equilibrium of molecules, and applied Quasi-continuum method to simulate molecular static models. Discussed the existence of “ghost force”, resulting from multi-levels of physical descriptions}}}
+  
+% % % \end{itemize}
+
+% % % \subsection{Data Analytics and Math Competitions}
+% % % \begin{itemize}
+
+% % % \item{
+% % % \cventry{2018}{Two Sigma data competition. Modelling by Neural Networks and LSTM}{Use news analytics to predict stock price performance}{UCSB \& UCSD}{}{}}
+% % %\vspace{3pt}\small{Based on market data and news data (hdf5), using Neural Networks, LSTM and other data analytics techniques to predict stock prices under the influence of news in Python}
+
+
+
+% % %\vspace{6pt}
+
+
+% % % \section{Awards and Honors}
+
+% % % \begin{itemize}
+% % % \item{ \textit{Travel grant for the 9th Western Conference on Mathematical Finance, USC, 2018}}
+
+% % % \item{ \textit{Travel grant for IPAM graduate summer school: Mean field games and applications, UCLA, 2018}}
+
+% % % \item{\textit{Doctoral Recruitment Fellowship, UCSB, 2017}}
+
+% % % \item{\textit{First Award of National Undergraduate Innovation Research Program, China, 2015-2016}}
+
+% % % \item{ \textit{Meritorious Winner (Top 2\%) of Mathematical Contest in Modeling, COMAP, 2015\&2016
+% % % }}
+% % % \\
+% % % \textit{\small{\textbf{Published}, T. Yang, Q. Lu, Y. Huang. ‘How to Eradicate Ebola’, Luojia Mathematics, 6, 2016}}
+% % % % \item{ \textit{Honorable Mention (Second Prize) of Mathematical Contest in Modeling, COMAP, 2014}}
+% % % \item{ \textit{Outstanding Student of Wuhan University, China, 2013-2016
+% % % }}
+
+% % % \item{ \textit{Wuhan University Scholarship (Top 2\%), China, 2012-2015
+% % % }}
+% % % \item{ \textit{Outstanding Student leader of Wuhan University, China, 2014
+% % % }}
+% % % \item{ \textit{Second Prize (Top 2\%) of Contemporary Undergraduate Mathematical Contest in Modelling, 2014
+% % % }}
+
+% % % \end{itemize}
+
+% % % \subsection{Certificate}
+% % % National Computer Rank Examination Certificate (C language), 2014
+
+% % % C++ for C programmers, Coursera (Ongoing), 2019
+
+% % % \section{Experiences}
+
+% % % \subsection{Presentation}
+% % % \begin{itemize}
+% % %     \item Contagion in financial systems - A Bayesian network approach, UCSB, 2018
+% % %   \item The weak formulation and BSDEs approach to the mean field game problem, UCSB, 2018
+% % % \end{itemize}
+
+% % % \subsection{Summer school (invited)}
+
+% % % \begin{itemize}
+
+% % % \item Mean Field Games and Applications, IPAM, UCLA, 2018
+
+
+% % % \item Operation research and management, Shanghai University of Finance and Economics, 2014
+
+% % % \end{itemize}
+
+% % %Seeks to solve education gap, bring education aid and promote female empowerment. Wins the Second Award in 2014 Undergraduate Volunteer Activity, Hubei, China
+% % %Provide opportunities of math modelling learning and discussion, communicate with students school-wide.
+
+% % %\section{Skills}
+% % %\vspace{6pt}
+% % %\begin{itemize}
+  
+
+% %\vspace{6pt}
+
+% %\subsection{Languages}
+
+% %Mandarin Chinese(Fluent), French(Intermidiate)
+% %\end{itemize}
+
+% % Publications from a BibTeX file without multibib
+% %  for numerical labels: \renewcommand{\bibliographyitemlabel}{\@biblabel{\arabic{enumiv}}}% CONSIDER MERGING WITH PREAMBLE PART
+% %  to redefine the heading string ("Publications"): \renewcommand{\refname}{Articles}
+% \nocite{*}
+% \bibliographystyle{plain}
+% \bibliography{publications}                        % 'publications' is the name of a BibTeX file
+
+% % Publications from a BibTeX file using the multibib package
+% %\section{Publications}
+% %\nocitebook{book1,book2}
+% %\bibliographystylebook{plain}
+% %\bibliographybook{publications}                   % 'publications' is the name of a BibTeX file
+% %\nocitemisc{misc1,misc2,misc3}
+% %\bibliographystylemisc{plain}
+% %\bibliographymisc{publications}                   % 'publications' is the name of a BibTeX file
+
+% %-----       letter       ---------------------------------------------------------
+
+\end{document}
+
+
+%% end of file `template.tex'.
+
+
+

@@ -1,0 +1,18 @@
+\section*{RI: Video Synthesis with Linear-Complexity Attention}
+\addcontentsline{toc}{section}{\protect\numberline{}Project Summary}
+
+
+\subsection*{Project Overview: }
+Large language models (LLMs) have demonstrated the transformative potential of generative artificial intelligence (AI), reshaping how people work, learn, and interact across domains such as engineering, education, and healthcare. At the core of what has enabled the generalization capabilities of a Agentic AI today is the autoregressive training of an LLM. In autoregressive training, text tokens up to a specific time point is used to predict subsequent tokens. We seek to study and build visual models in a similar way by training vision models using video instead of images alone. These types of linear-attention models were recently proposed to address the squared computational complexity of attention mechanisms. However, how they can be applied to work on video generation which is inherently multimodal, high-dimensional and along a long time series is not well understood. 
+
+The primary focus of this proposal is to examine how to develop a generalized method for learning multimodal visual representations using linear-time attention over high-dimensional spatial data. Based on our preliminary work, there are a few technical challenges. For example, as the sequence length increases, the importance of samples seen from a long time ago decreases. How then should the features be ordered given this limitation? Furthermore, how should spatial from multiple modalities be linearized and fused?
+
+
+In this RI proposal, we propose a synergestic set of enhancements to advance visual intelligence. We do this by improving the efficient learning of diffusion and flow-based models through novel architectural and framework advancements. 
+
+\paragraph{Intellectual Merit} 
+This work lies in merging the computational and foundational mathematical techniques to advance designing, evaluating, and optimizing multimodal video generation methods. First, the project proposes novel methods to replace the costly full attention mechanism in current state of the art diffusion-based video generation methods with linear-complexity alternatives. This model used to understand how we can incorporate autoregressive training in a visual model. Additionally we also propose  novel optimization techniques to enhance diffusion and flow-based model optimization of linear attention architectures to improve the quality and efficiency of video generation. This is extended into the multimodal setting by designing methods to fuse language and speech into a visual representation for conditional generation. Our work will be thoroughly verified according to machine learning best practices. Our source code along with weights will be open sourced following responsible AI use standards. 
+
+\paragraph{Broader Impacts} 
+
+The impact of an efficient video generation method is vast as it can lead to a generalizable vision model akin to the generalization capabilities of an LLM. If successful, our method can lead to new insights into physical intelligence which would enable robotic integration into daily life; it could also enable smarter and more personalized generation of multimodal tutoring and training content. The open source code of our computationally accessible method will be made available to scientists to support rapid prototyping of ideas which tackle pressing societal issues in education, health, and much more. Additionally, through the integration of our research into the curriculum, we create high-impact training opportunities for students at multiple institutions to prepare for critical workforce and national strategic needs outlined in America's AI Action Plan.
