@@ -1,0 +1,726 @@
+===== PAGE 1 =====
+Self-Training Small Reasoning Models
+1 Introduction and Motivation
+The goal of this project is to develop effective and efficient deep learning algorithms for language, visual,
+and multimodal reasoning through distillation. Distillation is a form of transfer learning where a smaller
+specialized model is trained to replicate the behaviors of a larger model. Existing approaches to distilla-
+tion utilize architecturalCITEand optimizationCITEmethods to enable distillation for languageCITE,
+visualCITE, and multimodal dataCITE. Traditionally, these methods have been applied to tasks such
+as language understanding, visual classification, and other tasksCITE. However, there is an increasing
+indication that they should be extended to better support more complex reasoning and advanced artificial
+intelligence tasks. The technical need is important due to the proliferation of agentic systems. In addition to
+improving their efficient use, efficient methods to tune and adjust their behaviors are critically needed.
+Modern artificial intelligence (AI) and agentic systems fundamentally rely on a large language model
+or multimodal large language model. This is enabled through the use of a harness, which provides a soft-
+ware defined method to enable interaction with uesrs and the agent’s environment. The harness then utilizes
+a LLM backend to reason, make predictions, and decide future actions based on the information and af-
+fordances provided by the agentic harness. Using this architecture, modern AI systems are demonstrating
+transformational capabilities in society.
+Popular benchmark tasks include language-controlled computer use, robotic manipulation, and others.
+However, due to the high computational and data costs associated with modifying a LLM backend, cus-
+tomizations are challenging and limited to techniques such as due to the computational and data require-
+ments for running and modifying the LLM backend, at is core, agentic systems still rely on the foundational
+capabilities of the LLM.
+Currently, the most performant LLMs are built using billions of parameters. On some tasks, they can
+exceed human performanceprovide examples. However, on many reasoning focused tasks, they do not
+perform as stronglyCITE, performance benefits from scaling also appears to be plateauingCITE. Further-
+more, due to their scale in terms of both data and compute requirements, training these models directly is
+out of reach for many researchers. Fortunately, there is evidence that small parameter models can solve
+problems that were initially only demonstrated on larger models. While there are certainly many factors
+which can lead to these observations, it indicates that parameter count is not the sole determinant of reason-
+ing ability. The core goal of this proposal is to improve the intelligenceindirectproperties of LLMs without
+relying on scaling properties.
+To address this fundamental question, we propose to build small models with the same capabilities as
+larger models. We will tackle this by looking at distillation and understand how smaller models can replicate
+the capabilities of larger models. This will allow us to understand what are effective mechanisms, such as
+optimization or architectural enhancements, which enable this capability. This will enable us to develop
+new interpretable insights by understanding the effects that the proposed methods will have. Furthermore,
+the benefits of building smaller models will provide efficiency improvements for many resource-constrained
+compute settings.
+Intellectual Merit
+The proposed The proposed foundational advancements in generative representation learning of multimodal
+video has transformative and far-reaching implications. For example, these models can be used in new
+1
+
+===== PAGE 2 =====
+vision-language-action models to benefit improved understanding of the physical world. This can support
+robotic (embodied or non-embodied) integration in society. By enabling integration, robots can help do
+household chores, support decision making, or automate mundane tasks. However, current large visual
+models are limited in their capabilities compared to large language models. For example, they cannot
+properly understand physical properties. In addition to these, video models are extremely expensive to
+train. In this proposal, we provide a potential solution towards addressing these issues. The goal is for the
+outcomes of our research to lead to broader scientific and interdisciplinary investigations into multimodal
+visual reasoning.
+We propose multiple innovations towards this goal. First, we extend existing diffusion and flow based
+generative methods to use lower complexity attention that is customized for video-based tasks. The at-
+tention mechanism in the network architecture is core to the what enables the algorithms of today and is
+extremely computationally expensive. Second, we take a first principles approach towards developing op-
+timization methods for these diffusion and flow based methods. This will be used to enhance the learned
+representations in an improved and more computationally efficient manner. Lastly, we extend these efficient
+representation learning advancements into the multimodal domain to enable a foundational model that is
+trained and designed for multimodal understanding, reasoning, and use. Our work will be thoroughly veri-
+fied according to machine learning best practices. Our source code along with weights will be open sourced
+following responsible AI use standards.
+2 Background
+Generative Models:Generative models (i.e., deep learning models that can generate open-ended responses)
+have rapidly increased in usage recently, largely driven by LLMs [86, 7]. High quality generative text
+models were first widely demonstrated by OpenAI’s ChatGPT (which incorporated instruction tuning) [55].
+Generative models have grown beyond simple question answering to applications such as coding support
+[17, 65, 63, 75, 34], complex task following [70, 86, 84], and conducting research [7, 20]. Newer generative
+models have started to incorporate visual and audio modalities. For example, they have been implemented
+to improve gaming frame rates [47, 50, 89], upscale visuals [80, 88, 49], and generate podcasts [57]. A
+popular example in proposed morphing pixels to generate video from images (e.g., making a talking Mona
+Lisa) [64].
+Attention:The concept of attention in machine learning has been around for some time [4] and was initially
+applied effectively on text datasets. This served as the foundation for the transformer architecture [69] that
+is widely used as a general feature extractor today. This simple intuition of how much to emphasize each
+feature vector, has served as the foundation for the AI advancements we see today in foundational models
+such as large language models (LLMs) and multimodal LLMs. In addition to their use in foundational
+models, special customizations and combinations with existing neutral architectures have been applied to
+many language, visual, and multimodal problems. Attention and transformers have been applied to multiple
+vision problems such as in image classification [18] and action recognition [52]. The basic functionality
+is to apply layers of self-attention, on sequential representations. However, the a primary concern is its
+high computational complexity ofOpn 2q. There have been several well-known works in developing a
+generalizable linear-complexity attention module. For example, [36] examined how the attention mechanism
+is essentially similar to a similarity function and simplifies the computation in this manner. Mamba[23],
+also frequently referred to as State Space Model (SSM) attention, takes advantage of this and incorporates
+additional system level enhancements. These have also been applied to a variety of applications such as 3D
+vision [38].
+Knowledge Distillation:Knowledge distillation approaches can be broadly categorized into off-policy
+2
+
+===== PAGE 3 =====
+and on-policy distillations. Standard methods generally operate via off-policy distillation, where the student
+learns from the teacher’s logits on fixed, ground-truth datasets [27, 62, 77, 39, 76]. While efficient, this setup
+suffers from exposure bias [2], as the student never comes across its own incorrect generation during training.
+Conversely, on-policy approaches [1, 24, 43, 41] mitigate this training-inference mismatch by fine-tuning
+the student-generated output (SGO) sequences, but these methods suffer from self-generative inefficiency
+during training. Feature-based KD attempts to align the intermediate representations of the student and
+teacher directly. FitNets [61] introduced regression losses to match the hidden states of intermediate layers.
+Subsequent works have proposed aligning attention maps [85, 71]. Recently, works [66, 21] proposed to
+distill the intermediate features from teacher to student using the asymmetric Kullback-Leibler divergence
+LKLpp||qθqmetric, which undervalues the matching of low-probability regions.
+Efficient Machine Learning:Distillation methods fall under
+3 Research Plan
+Company Arch. Size Arena Elo SWE-bench (%) MMMU Pro (%) MMLU Pro (%) GSM8K (%)
+Proprietary (Closed weights, closed source, API-only)
+Anthropic Dense Undisclosed 1503 93.9 92.7 89.5 96.4
+OpenAI Dense Undisclosed 1488 88.7 94.0 92.5 97.1
+Google MoE Undisclosed 1493 80.6 83.9 91.0 86.2
+Meta Dense Undisclosed 1491 77.4 80.4 – 77.7
+Open Weights (Permissive and Restrictive)
+Alibaba / Qwen MoE 397B (17B act.) – 76.2 86.0 88.5 95.9
+MiniMax MoE 230B (10B act.) – 80.2 – 88.0 –
+DeepSeek MoE 1.6T (49B act.)„1460 80.6 – 87.5 95.1
+Moonshot AI MoE„1T (32B act.)„1460 80.2 79.4 87.1 97.3
+Meta / Llama MoE 400B (17B act.) – – 73.4 85.5 –
+Google / Gemma Dense 31B – – 76.9 85.2 95.9
+Fully Open Source (Weights + training scripts + datasets public)
+AllenAI / OLMo 2 Dense 32B„1200 – –„82.0 78.8
+AllenAI / OLMoE MoE 7B (1B act.) – – –„58.0 68.2
+Table 1: Comparison of open source and closed open weight models. A clear separation exists between their
+performance. . Values obtained from trackers and leaderboards.
+PIs related prior work:The proposed efforts directly leverage the PI’s past work. PI Ding has conducted
+work on incorporating a Mamba-based method (one type of linear-attention method) into learning 3D rep-
+resentations [38] published at International Conference on Learning Representations. This also includes
+additional work [37] and background in computer vision and machine learning [53, 14]. PIs have also done
+extensive work in the multimodal space [15, 16, 35, 51] and flow-based and differential-equation-related
+approaches [6, 82] as well as the previously mentioned [11, 26, 13, 56, 81].
+3.1 Thrust 1: Distillation
+Off-policy, On-Policy, dense to sparse, sample efficiency, multimodal, agentic distillation
+3.2 Aim 1: Efficient Intra-Family Distillation
+This aim establishes a solid foundation to enable novel advancements to distillation methodology. We
+propose multiple advancements to the a constrained form of the distillation problem setup, which assumes3
+
+===== PAGE 4 =====
+that the teacher and student come from the same family. For example, distilling from a Llama model with
+6.7B parameters to a 1.1B parameter Llama model. Distillation in such settings will help to improve the
+performance as well as improve model efficiency. Subsequent aims will relax this assumption to support
+additional enhancements. A canonical baseline approach for distillation typically involves three broad tasks.
+It is usually, but not necessarily, in order and can also be mixed with each other or partially skipped. First
+a strong teacher is chosen which is fine-tuned to a specific task of interest. Second, the teachers knowledge
+is transferred to the student. Lastly, additional fine-tuning is conducted on the student independent of the
+teacher. We discuss advancements and investigations for each of these components below.
+3.2.1 Weight initialization
+A baseline way to start the training of a neural network is to initialize the weights randomly [27] or by train-
+ing the student with an unsupervised objective [68]. However, this approach requires training the student
+model from scratch which requires a large amount of compute and is typically not used in practice except
+as a baseline comparison. Many works have explored how to initialize student weights based on teacher
+weights. For example, the student can copy a subset of the layers directly [72, 72]. Another way to view this
+is through a pruning approach [78]. However, these approaches limit the adjustments possible such as requir-
+ing the similar latent space shape. Recently, it has been shown that it is possible to copy a subset of teacher
+layers as well as element weights to match a smaller student architecture during initialization [9]. This
+technique was demonstrated to be effective on visual features, therefore, an interesting research challenge
+remains on how similar approaches can be made to work with language features since they are fundamen-
+tally different in the representation space. Instead of selection based copying, factorization based methods
+enables a transformation into different representation dimensions [8, 42, 83, 46]. Distillation, however, is
+not limited to just creating a student which is smaller than a teacher model. Expanding model capacity has
+been demonstrated to be highly beneficial, several methods have explored how to widen or deepen a trained
+network. This can be done by expanding the width via random copying of neurons [10], or by stacking
+multiple small models together [22]. The proposed work will examine how all these methods of initializa-
+tion can interfere with the distillation process. For example, each initialization method introduces inductive
+biases into the student model. We will seek to understand how initialization can be improved to accelerate
+model training and to improve student model performance.
+3.2.2 Student-teacher alignment
+Once the weights are initialized, the student will then learn to align its outputs with the teacher responses.
+This is typically done by defining an optimization objective to constrain the distance between the student
+and the teacher outputs. There are many forms of this distance, For example, the student can learn to align
+directly to the teacher’s outputs via a cross-entropy loss:
+Lhard “ ´ 1
+T
+Tÿ
+t“1
+Kÿ
+k“1
+˜yt
+k logp spk|xq
+where˜yis a one-hot label from the teacher, andkis the student output probability. This is also known as
+hard-label alignment [27], which is useful for example in settings where teacher logits are unavailable [73,
+67] or due to model structure differences [39]. However, using hard labels alone potentially requires a
+large amount of data to properly transfer knowledge [25]. To simplify the process, many works look at a
+slightly simpler approach where the teacher model logits are available for distillation. The logits provide
+a distribution over the possible outputs which can be aligned using Kullback-Liebler divergence or a L2
+distance [3]. Many works focus on how we can most appropriately align the token distributions of the
+4
+
+===== PAGE 5 =====
+teacher and student. For example, analysis has looked at how forward KL loss tends to cover all modes of
+the distribution (i.e. mean seeking) which may be detrimental for the performance for small models [30, 24].
+Optimal transport based objectives can also be defined to support the knowledge transfer process.
+If model weights are available, then the KD problem can be relaxed. In addition to defining an op-
+timization objective on the output layer, intermediate representation transfer can also help accelerate the
+representation learning process. Exploiting intermediate representations is useful for many reasons, for
+example, logit lens and linear probing techniques have long shown that intermediate layers provide inter-
+pretable value. Therefore, it would make sense to understand how this interpretability can benefit KD. The
+proposed work will explore how we can develop techniques to transfer intermediate layer dynamics and
+understanding during distillation. We will do this by understanding the latent data properties and look at
+how objectives and transformations
+3.2.3 Post-distillation fine-tuning
+Once the knowledge transfer process from the teacher to student is complete, many techniques incorporate
+an additional fine-tuning process. For example, the student can be further fine-tuned on the task-specific
+dataset. Additionally, many generative or decoder-only models typically involve a RL fine tuning process
+to more specifically align task outputs to human preferences. However, in many scenarios, such preference
+tuning datasets may not be available. LLM-based preference feedback has been shown to be beneficial for
+this process where alignment data for specific tasks are unavailable. This LLM feedback can be incorporated
+into the tuning process via a DPO objective for example. A major challenge is that the feedback is noisy and
+can lead to hallucinations. We propose to look at how we can improve LLM-based feedback by accounting
+for noise. We will also look at how to reduce hallucinations by adding additional verification steps for the
+feedback signal.
+3.3 Evaluation Methodology
+The dataset and evaluation methodology will be common to all proposed tasks. The discussion builds on
+Aim 1, but can be altered to suit the subsequent aims.
+3.3.1 Baseline methods
+Our comparison spans standard, including Supervised Fine-Tuning (SFT) and Standard KD (Forward KL) [27],
+alongside Sequence-Level KD (SeqKD) [39]. To analyze the impact different loss formulations, we also
+benchmark against advanced divergence objectives: the mode-seeking Reverse KL (RKL), symmetric met-
+rics like Jeffreys Divergence (JD) [31] and Jensen-Shannon Divergence (JSD), and the hybrid Adaptive KL
+(AKL) [77], which dynamically balances mean- and mode-seeking behaviors. We will also integrate our
+understanding derived from foundational evaluations into end-to-end approaches. We will also compare
+against a mix of on-policy and off-policy methods. In off-policy distillation, static sequences are first gen-
+erated by a teacher. By optimizing on static sequences, these methods suffer from exposure bias [2]: a
+distribution mismatch arises because the model is trained on ground-truth sequences but evaluated on its
+own autoregressive generations [24]. This increased exposure bias directly degrades the generation capabil-
+ities of language models [2]. In contrast, on-policy distillation [24, 1] mitigates this by training the student
+modelq θ on its own self-generated responsesyfor given promptsx. However, this effectiveness comes
+at a high computational cost; the generation process introduces significant GPU overhead and slows down
+training [43, 41].
+We will also compare our methods against framework-level or end-to-end methods such as MiniLLM,
+5
+
+===== PAGE 6 =====
+DistillLLM.CITE. We will also incorporate different LLMs into the training pipeline. We expect to per-
+form most experiments using Gemma, Llama, Olmo, Qwen, Deepseek as these models have open weights.
+We will additionally incorporate closed source models such as those form OpenAI and Anthropic for eval-
+uations, as feedback, and as real-world black-box evaluation.
+3.3.2 Datasets
+Our evaluation spans five diverse benchmarks: a held-outDollyEvalset (500 samples), the user-centric
+SelfInst[73], and the reasoning-focusedVicunaEval[87]. Additionally, we evaluate long-form generation
+capabilities using the response subsets ofS-NI[74] andUnNI[28].
+3.3.3 Metrics
+We assess the quality of model-generated responses using Rouge-L (R-L) [48]. Prior studies [74] have
+demonstrated that Rouge-L correlates well with human evaluation for large-scale instruction-following
+tasks, making it a suitable proxy for measuring generation precision and recall against ground truth ref-
+erences. We estimate the semantic similarity with the ground truth using GPT-4o-mini [29] as the judge and
+the SBERT score using Sentence-BERT models [60]. The GPT-4o-mini evaluation prompts are modified
+from prior work [87].
+3.4 Aim 2: Multimodal Large Language Model Distillation
+In this aim, we will explore how to distill MLLM models. Large language models
+3.5 Aim X: Multitask distillation under data constraints
+There are many circumstances where we wish to preserve performance of multiple tasks or datasets. For
+example, it is beneficial to maintain safety guardrails of a model while improving task performance. We
+will investigate how we can do this. One naive approach is to use multiple datasets depending on the tasks
+of interest. In practice, not all data available for teacher models may be available for distillation. Therefore,
+naive approaches will be limited due to data availability uniformity. Additionally, it has been shown pre-
+viously that prompt templates can have an impact on model performanceCITEwhich raises fundamental
+questions about the behavior of how models learn. We will examine how these training and optimization
+effects transfer into a distillation setting. We will analyze attention weights of different prompting and learn-
+ing scenarios and create visualizations using t-SNE and other projection methods. We will explore methods
+of sample selection, augmentation, network customizations, and customized optimization objects can be
+used to overcome inductive biases in multitask distillation settings.
+The typical way in
+3.5.1 Template mixing in distillation
+3.5.2 Few-shot distillation
+3.6 Aim X: Distillation across model families
+Distillation across families of models, for example from Qwen to Llama, is important since the models
+demonstrate superior capabilities on different tasks. However, transferring across model family is challeng-
+ing for several major reasons:
+6
+
+===== PAGE 7 =====
+• Tokenizer mismatch: Tokenization is required part of the pipeline which breaks down raw data into
+chunks. These chunks can represent whole words. Qwen for example, uses BPE-based [59] tokeniza-
+tion, while Gemma uses SentencePiece [44] tokenization.
+• V ocabulary: Special tokens, such as templates, for each language model and accommodations for
+language (i.e. mandarin vs english) and task-specific optimizations can change the vocabulary size,
+and allocation.
+• Architectural choices: Even if architectures are aligned in using transformers, the hidden state, alyer
+counts, positional encoding, data and other factors all change the learned representation. This can be
+complicated by the use of different attention mechanisms [23, 58] or use of sparse mixture-of-experts
+models for example.
+• Policy: Policy choices in model training, such as what is considered safe or non-safe in responses,
+will need to be addressed during distillation. Where these boundaries lie creates complications in
+formulating an appropriate distillation objective.
+The above provides a non-exhaustive list of possible challenges when conducting cross-family distillation.
+We will address these challenges and more in our investigations of cross-family distillation. This outcomes
+of this research aim will be to develop a fundamental understanding for how we can transfer knowledge
+across families of models.
+To tackle these problems, we will look at how intermediate and final output representations can be
+transformed. We will first do this through a rigorous unsupervised representation analysis of the data and
+corresponding representations. We will also examine and evaluate how theoretical understanding of repre-
+sentations can inform the design of novel distillation methods. For example, many methods rely on mini-
+mizing Mean Squared Error (MSE),L M SE “ }W shp ´h qθ }2, whereW s projects the teacher hidden state
+hp to the space of student hidden stateh qθ [61, 33]. However, because MSE assumes an isotropic em-
+bedding space where all error directions are equal and high-dimensional language embedding spaces are
+highly anisotropic [19]; identical MSE values can yield vastly different probability divergences depending
+on whether the error projects onto high-probability or low-probability tokens atpplqpy|xq. This suggests that
+we should be using other objectives to minimize the semantic mismatch such as through KL via a projection
+layer. Using these understanding, and other properties such as asymmetric loss properties or layer-wise
+representation properties [54], we will design novel distillation methods.
+3.6.1 Aim X: Architecture-agnostic distillation
+While transformers [69] have enabled much of the modeling capabilities of today’s algorithms, variations
+have been built on top of these methods to improve their model capabilities (e.g. Mixture-of-Experts [12,
+59,?, 40, 32]) or improve their efficiency (e.g. state space models [23] and RNN-based attention [5, 58]).
+Development of generalized understanding and techniques that can enable transfer between different model
+architectures if valuable. However, it is currently an open research question as to how distillation can best
+occur due to rapid pace at which novel architectures are developed as well as the underlying layer and
+representation properties of different methods. The outcome of this aim will be a method that can enable
+distillation across models with different underlying attention and representation mechanisms. We propose
+to tackle this by studying how we can learn projections to aid in the transformation between neural networks
+with different
+7
+
+===== PAGE 8 =====
+3.7 Thrust: Distillation and Agentic Integration of distilled models into agentic pipelines
+The LLM is the backbone of an AI Agent and is fundamentally what is relied on by the source code or
+harness to enable much of the automation capabilities we see today in OpenAI or Anthropic’s systems.
+Therefore, a better or improved LLM would naturally lead to improvements in Agent behaviors. This Aim
+will develop a rigorous method to evaluate distilled models performance in agentic systems, and to develop
+an understanding for the improvements that are needed. This creates a synergistic feedback that enables
+iterative distillation improvement. We will use multiple evaluation environments and benchmarks. We will
+focus on benchmarks which provide a level of standardization for the harness. However, we will also make
+use of publicly available harnesses for additional benchmarks. SWE-bench [34] is a benchmark to evaluate
+whether agents can solve GitHub issues. Each task is built from an issue and a pull request, the harness
+applies a LLM generated patch and runs test for execution-based evaluation. OSWorld [79] is a scalable
+real-computer environment for multimodal agents, supporting task setup, execution-based evaluation and
+interactive learning in operating systems. BrowserGym [45] standardizes the observation and action space
+for browser-based agent interaction and evaluation. Using these benchmark environemtns, we will compare
+the efficacy of distilled models against state-of-the-art distillation methods as well as non-distilled variants.
+Ethical considerations
+While the goals of the proposed effort is to enable generative methods for beneficial use cases, the PIs
+acknowledge that any general purpose generative AI, ours included, have the potential to cause harm. While
+we believe that the ultimate benefits far out weigh any harms that may be caused, the PIs will follow the best
+possible practices of the industry for responsible AI development during development and dissemination of
+the research. These include disclaimers and discussions of ethics in all publications. In addition to this, we
+will follow and continuously assess the risk of our research output in accordance with federal guidelines
+such as those provided in NIST’s AI Risk Management Framework. For any high-quality models developed
+which have the most potential for harms, we will require credentialed access to verified academic and
+industry researchers. Furthermore, they must also agree to a responsible AI license. We will continuously
+monitor the developments around our model and methodology to ensure that harms are minimized. For our
+publicly released code, we will provide documentation that will discuss how our code can be modified by
+others to include protective measures such as watermarking.
+4 Integration into Education
+In addition to the impactful scientific advancements that can be made if our project is successful, this project
+would support the training of two doctoral students. Additionally, it is the intention of the PI to help the
+broader scientific communities at his institution. This includes understanding of generative models, natural
+language processing, and multimodal machine learning. Towards this, we will integrate our findings to
+support the generative AI education experience at our respective institutions. Two additional educational
+goals are discussed.
+Workforce training in generative AI across campus and communitiesAI is at the core of what will
+impact society in the near future. It is therefore critical that technical innovations are taught readily manner
+and is accessible to a large audience. Current students at the institution of both the PI predominantly learn
+machine learning and AI through discriminative techniques. For example, topics in data science or machine
+learning predominantly discuss classifiers such as support vector machines. The proposed topics of training
+and distilling a multimodal model will be integrated into the curriculum. PI Ding has taught Advanced
+8
+
+===== PAGE 9 =====
+Machine Learning, NLP and Data Science in the past, and will incorporate visual generation into those and
+similar courses. In the past, the has recently highly positive reviews. This provides a strong indication for
+successful implementation of the proposed educational activities.
+Integration of Undergraduate Students in ResearchThe PI has hosted multiple undergraduate students
+in his labs. The University of Tennessee Knoxville provide mechanisms to support the inclusion of under-
+graduate researchers. This will directly benefit the supported graduate students, giving them an opportunity
+to mentor others. Additionally, it will provide a well-defined project mechanism to support undergraduate
+researchers. It is the intention of the PI to recruit one undergraduate student to be involved in the project.
+In the past, PI Ding has had success through these research mechanisms in recruiting domestic doctoral
+students, as well as enabling pre-doctoral students to make significant contributions to top tier publications
+[38, 53].
+5 Project Management and Timeline
+The project is planned for All PIs will share responsibility for coordinating research activities, maintaining
+effective communication among institutional partners, and ensuring steady progress toward project goals.
+Each PI will provide scientific leadership, mentor students, and oversee timely completion of assigned re-
+search milestones as outlined in Figure 1. Our proposed project will span three years.
+Figure 1: Planned Project Timeline
+For each PI, meetings with students will take place weekly for progress, mentorship, and research sup-
+port. Two doctoral students will be supported as part of this project. Joint meetings between the PIs and
+their respective students will take place every two weeks via Microsoft Teams. Our teams will maintain
+private GitHub repositories for research code and use Overleaf for joint publications. In addition to this,
+multiple sources of secure private cloud services are available to share data and other research documents.
+Broader Impacts
+Education and workforce development:This project will support the training of two PhD graduate stu-
+dents and provide an updated curriculum on generative AI development. The proposed tasks will also
+enable opportunities for undergraduate and masters research participation. The research is core to NSF and
+national security goals of advancing strategic US competitiveness, specifically in AI and accelerating AI
+innovationAI action plan citation. The education and development of workforce is a critical piece towards
+this goal.
+Addressing scaling requirements of AI:Computational requirements of to deploy AI at scale requires
+significant energy, computational, and costly resources. The proposed efforts will lead to efficient and
+effecitve methods which will directly reduce scaling limits for broadly deploying AI.
+9
+
+===== PAGE 10 =====
+Generalization to applied machine learning challenges and interdisciplinary research:The proposed
+tasks are foundational to many machine learning tasks. For example, if successful our methods can be more
+readily integrated into vision-language-action [90] models to study physical world understanding. This
+would support effective and efficient operation in edge settings. Another area is for example in building
+personalized and local assistants. This would help protect privacy of end users.
+Prior NSF Support
+PI has not received direct NSF funding and would be a first-time NSF awardee. However, PI has substan-
+tial experience contributing to externally funded research which has resulted in numerous publications at
+premiere venues.
+10
+
+===== PAGE 11 =====
+References
+[1] Rishabh Agarwal, Nino Vieillard, Yongchao Zhou, Piotr Stanczyk, Sabela Ramos Garea, Matthieu
+Geist, and Olivier Bachem. On-policy distillation of language models: Learning from self-generated
+mistakes. InThe Twelfth International Conference on Learning Representations, 2024.
+[2] Kushal Arora, Layla El Asri, Hareesh Bahuleyan, and Jackie Chi Kit Cheung. Why exposure bias
+matters: An imitation learning perspective of error accumulation in language generation. InFindings
+of the Association for Computational Linguistics: ACL 2022, pages 700–710, 2022.
+[3] Jimmy Ba and Rich Caruana. Do deep nets really need to be deep? InAdvances in Neural Information
+Processing Systems, 2014.
+[4] Dzmitry Bahdanau, Kyunghyun Cho, and Yoshua Bengio. Neural machine translation by jointly learn-
+ing to align and translate.arXiv preprint arXiv:1409.0473, 2014.
+[5] Maximilian Beck, Korbinian P ¨oppel, Markus Spanring, Andreas Auer, Oleksandra Prudnikova,
+Michael Kopp, G ¨unter Klambauer, Johannes Brandstetter, and Sepp Hochreiter. xlstm: Extended
+long short-term memory.Advances in Neural Information Processing Systems, 37:107547–107603,
+2024.
+[6] Elena Celledoni, Brynjulf Owren, Lars Ruthotto, and Tianjiao Nicole Yang. Mixed precision training
+of neural odes.American Control Conference (ACC), 2026.
+[7] Hui Chen, Miao Xiong, Yujie Lu, Wei Han, Ailin Deng, Yufei He, Jiaying Wu, Yibo Li, Yue Liu,
+and Bryan Hooi. Mlr-bench: Evaluating ai agents on open-ended machine learning research. In
+Proceedings of the Thirty-Ninth Conference on Neural Information Processing Systems (NeurIPS),
+2025.
+[8] Patrick H. Chen, Hsiang-Fu Yu, Inderjit S. Dhillon, and Cho-Jui Hsieh. Data-aware low-rank com-
+pression for large nlp models. InAdvances in Neural Information Processing Systems, 2021.
+[9] Tianlong Chen, Jonathan Frankle, Shiyu Chang, Sijia Liu, Yang Zhang, Michael Carbin, and
+Zhangyang Wang. Initializing models with larger ones. InInternational Conference on Learning
+Representations, 2024.
+[10] Tianqi Chen, Ian Goodfellow, and Jonathon Shlens. Net2Net: Accelerating learning via knowledge
+transfer. InInternational Conference on Learning Representations, 2016.
+[11] Yu Chen, Wei Deng, Shikai Fang, Fengpei Li, Nicole Tianjiao Yang, Yikai Zhang, Kashif Rasul,
+Shandian Zhe, Anderson Schneider, and Yuriy Nevmyvaka. Provably convergent schr ¨odinger bridge
+with applications to probabilistic time series imputation. InInternational Conference on Machine
+Learning, pages 4485–4513. PMLR, 2023.
+[12] DeepSeek-AI. DeepSeek-V3 Technical Report, 2024.
+[13] Wei Deng, Yu Chen, Nicole Tianjiao Yang, Hengrong Du, Qi Feng, and Ricky TQ Chen. Reflected
+schrz” odinger bridge for constrained generative modeling.arXiv preprint arXiv:2401.03228, 2024.
+[14] Manish Dhakal, Venkat R Dasari, Raj Sunderraman, and Yi Ding. Gft: Graph feature tuning for
+efficient point cloud analysis. InIEEE/CVF Winter Conference on Applications of Computer Vision,
+2026.
+[15] Yi Ding, Brandon Huynh, Aiwen Xu, Tom Bullock, Hubert Cecotti, Matthew Turk, Barry Giesbrecht,
+and Tobias H¨ollerer. Multimodal classification of eeg during physical activity. In2019 International
+Conference on Multimodal Interaction, pages 185–194, 2019.
+[16] Yi Ding, Jacob You, Tonja-Katrin Machulla, Jennifer Jacobs, Pradeep Sen, and Tobias H ¨ollerer. Im-
+pact of annotator demographics on sentiment dataset labeling.Proceedings of the ACM on Human-
+Computer Interaction, 6(CSCW2):1–22, 2022.11
+
+===== PAGE 12 =====
+[17] Tuan Dinh, Jinman Zhao, Samson Tan, Renato Negrinho, Leonard Lausen, Sheng Zha, and George
+Karypis. Large language models of code fail at completing code with potential bugs. InAdvances in
+Neural Information Processing Systems (NeurIPS 2023), 2023.
+[18] Alexey Dosovitskiy, Lucas Beyer, Alexander Kolesnikov, Dirk Weissenborn, Xiaohua Zhai, Thomas
+Unterthiner, Mostafa Dehghani, Matthias Minderer, Georg Heigold, Sylvain Gelly, Jakob Uszkoreit,
+and Neil Houlsby. An image is worth 16x16 words: Transformers for image recognition at scale.
+CoRR, abs/2010.11929, 2020.
+[19] Kawin Ethayarajh. How contextual are contextualized word representations? comparing the geometry
+of bert, elmo, and gpt-2 embeddings. InProceedings of the 2019 Conference on Empirical Methods
+in Natural Language Processing and the 9th International Joint Conference on Natural Language
+Processing (EMNLP-IJCNLP), pages 55–65, 2019.
+[20] Adrian Garrett Gabriel, Alaa Alameer Ahmad, and Shankar Kumar Jeyakumar. Advancing agentic
+systems: Dynamic task decomposition, tool integration and evaluation using novel metrics and dataset.
+arXiv preprint arXiv:2410.22457, 2024.
+[21] Guoqiang Gong, Jiaxing Wang, Jin Xu, Deping Xiang, Zicheng Zhang, Leqi Shen, Yifeng Zhang,
+JunhuaShu JunhuaShu, ZhaolongXing ZhaolongXing, Zhen Chen, et al. Beyond logits: Aligning
+feature dynamics for effective knowledge distillation. InProceedings of the 63rd Annual Meeting of
+the Association for Computational Linguistics (Volume 1: Long Papers), pages 23067–23077, 2025.
+[22] Linyuan Gong, Di He, Zhuohan Li, Tao Qin, Liwei Wang, and Tieyan Liu. Efficient training of bert by
+progressively stacking. InInternational conference on machine learning, pages 2337–2346. PMLR,
+2019.
+[23] Albert Gu and Tri Dao. Mamba: Linear-time sequence modeling with selective state spaces.arXiv
+preprint arXiv:2312.00752, 2023.
+[24] Yuxian Gu, Li Dong, Furu Wei, and Minlie Huang. MiniLLM: Knowledge distillation of large lan-
+guage models. InThe Twelfth International Conference on Learning Representations, 2024.
+[25] Arnav Gudibande, Eric Wallace, Charlie Snell, Xinyang Geng, Hao Liu, Pieter Abbeel, Sergey Levine,
+and Dawn Song. The false promise of imitating proprietary llms.arXiv preprint arXiv:2305.15717,
+2023.
+[26] Paul Hagemann, Sophie Mildenberger, Lars Ruthotto, Gabriele Steidl, and Nicole Tianjiao Yang. Mul-
+tilevel diffusion: Infinite dimensional score-based diffusion models for image generation.SIAM Jour-
+nal on Mathematics of Data Science, 7(3):1337–1366, 2025.
+[27] Geoffrey Hinton, Oriol Vinyals, and Jeff Dean. Distilling the knowledge in a neural network.arXiv
+preprint arXiv:1503.02531, 2015.
+[28] Or Honovich, Thomas Scialom, Omer Levy, and Timo Schick. Unnatural instructions: Tuning lan-
+guage models with (almost) no human labor. InProceedings of the 61st Annual Meeting of the Asso-
+ciation for Computational Linguistics (Volume 1: Long Papers), pages 14409–14428, 2023.
+[29] Aaron Hurst, Adam Lerer, Adam P Goucher, Adam Perelman, Aditya Ramesh, Aidan Clark, AJ
+Ostrow, Akila Welihinda, Alan Hayes, Alec Radford, et al. Gpt-4o system card.arXiv preprint
+arXiv:2410.21276, 2024.
+[30] Ferenc Husz ´ar. How (not) to train your generative model: Scheduled sampling, likelihood, adversary?
+arXiv preprint arXiv:1511.05101, 2015.
+[31] Harold Jeffreys.Theory of Probability. Oxford University Press, second edition, 1948.
+[32] Albert Q. Jiang, Alexandre Sablayrolles, Antoine Roux, Arthur Mensch, Blanche Savary, Chris Bam-
+ford, Devendra Singh Chaplot, Diego de las Casas, Emma Bou Hanna, Florian Bressand, Gianna
+12
+
+===== PAGE 13 =====
+Lengyel, Guillaume Bour, Guillaume Lample, L ´elio Renard Lavaud, Lucile Saulnier, Marie-Anne
+Lachaux, Pierre Stock, Sandeep Subramanian, Sophia Yang, Szymon Antoniak, Teven Le Scao,
+Th´eophile Gervet, Thibaut Lavril, Thomas Wang, Timoth ´ee Lacroix, and William El Sayed. Mix-
+tral of Experts, 2024.
+[33] Xiaoqi Jiao, Huating Chang, Yichun Yin, Lifeng Shang, Xin Jiang, Xiao Chen, Linlin Li, Fang Wang,
+and Qun Liu. Improving task-agnostic bert distillation with layer mapping search.Neurocomputing,
+461:194–203, 2021.
+[34] Carlos E. Jimenez, John Yang, Alexander Wettig, Shunyu Yao, Kexin Pei, Ofir Press, and Karthik
+Narasimhan. SWE-bench: Can language models resolve real-world github issues? InInternational
+Conference on Learning Representations, 2024.
+[35] Uthman Jinadu and Yi Ding. Noise correction on subjective datasets. InProceedings of the 62nd
+Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), pages
+5385–5395, 2024.
+[36] Angelos Katharopoulos, Apoorv Vyas, Nikolaos Pappas, and Franc ¸ois Fleuret. Transformers are rnns:
+Fast autoregressive transformers with linear attention. InInternational conference on machine learn-
+ing, pages 5156–5165. PMLR, 2020.
+[37] Hongyu Ke, Jack Morris, Yongkang Liu, Satoshi Kitai, Kentaro Oguchi, Yi Ding, and Haoxin Wang.
+Tinybev: Compact temporal fusion for multi-view 3d perception. InProceedings of the Tenth
+ACM/IEEE Symposium on Edge Computing, pages 1–6, 2025.
+[38] Hongyu Ke, Jack Morris, Kentaro Oguchi, Xiaofei Cao, Yongkang Liu, Haoxin Wang, and Yi Ding.
+Mambev: Enabling state space models to learn birds-eye-view representations. InThe Thirteenth
+International Conference on Learning Representations, 2025.
+[39] Yoon Kim and Alexander M Rush. Sequence-level knowledge distillation. InProceedings of the 2016
+conference on empirical methods in natural language processing, pages 1317–1327, 2016.
+[40] Kimi Team. Kimi K2: Open Agentic Intelligence, 2025.
+[41] Jongwoo Ko, Tianyi Chen, Sungnyun Kim, Tianyu Ding, Luming Liang, Ilya Zharkov, and Se-Young
+Yun. Distillm-2: A contrastive approach boosts the distillation of llms. InForty-second International
+Conference on Machine Learning, 2025.
+[42] Jongwoo Ko et al. Efficient one-shot compression via low-rank local distillation. InProceedings of
+the 2025 Conference of the Nations of the Americas Chapter of the Association for Computational
+Linguistics. Association for Computational Linguistics, 2025.
+[43] Jongwoo Ko, Sungnyun Kim, Tianyi Chen, and Se-Young Yun. Distillm: Towards streamlined dis-
+tillation for large language models. InInternational Conference on Machine Learning, pages 24872–
+24895. PMLR, 2024.
+[44] Taku Kudo and John Richardson. SentencePiece: A simple and language independent subword tok-
+enizer and detokenizer for neural text processing. InProceedings of the 2018 Conference on Empirical
+Methods in Natural Language Processing: System Demonstrations, pages 66–71, Brussels, Belgium,
+2018. Association for Computational Linguistics.
+[45] Thibault Le Sellier De Chezelles, Maxime Gasse, Alexandre Drouin, Massimo Caccia, L ´eo Boisvert,
+Megh Thakkar, Tom Marty, Rim Assouel, Sahar Omidi Shayegan, Lawrence Keunho Jang, Xing Han
+L`u, Ori Yoran, Dehan Kong, Frank F. Xu, Siva Reddy, Quentin Cappart, Graham Neubig, Ruslan
+Salakhutdinov, Nicolas Chapados, and Alexandre Lacoste. The BrowserGym Ecosystem for Web
+Agent Research.Transactions on Machine Learning Research, 2025.
+[46] Seung Hyun Lee, Dae Ha Kim, and Byung Cheol Song. Self-supervised knowledge distillation using
+singular value decomposition. InProceedings of the European Conference on Computer Vision, 2018.13
+
+===== PAGE 14 =====
+[47] Jia Li, Ziling Chen, Xiaolong Wu, Lu Wang, Beibei Wang, and Lei Zhang. Neural super-resolution
+for real-time rendering with radiance demodulation. InProceedings of the IEEE/CVF Conference on
+Computer Vision and Pattern Recognition (CVPR), pages 4357–4367, 2024.
+[48] Chin-Yew Lin. Rouge: A package for automatic evaluation of summaries. InText summarization
+branches out, pages 74–81, 2004.
+[49] Yong Liu, Jinshan Pan, Yinchuan Li, Qingji Dong, Chao Zhu, Yu Guo, and Fei Wang. Ultravsr:
+Achieving ultra-realistic video super-resolution with efficient one-step diffusion space.arXiv preprint
+arXiv:2505.19958, 2025.
+[50] Antoine Mercier, Ruan Erasmus, Yashesh Savani, Manik Dhingra, Fatih Porikli, and Guillaume Berger.
+Efficient neural supersampling on a novel gaming dataset. InProceedings of the IEEE/CVF Interna-
+tional Conference on Computer Vision (ICCV), pages 296–306, 2023.
+[51] Sazia Mim, Jack Morris, Manish Dhakal, Yanming Xiu, Maria Gorlatova, and Yi Ding. Can a uni-
+modal language agent provide preferences to tune a multimodal vision-language model? InInterna-
+tional Joint Conference on Natural Language Processing & Asia-Pacific Chapter of the Association
+for Computational Linguistics 2025, 2025.
+[52] Arsha Nagrani, Shan Yang, Anurag Arnab, Aren Jansen, Cordelia Schmid, and Chen Sun. Attention
+bottlenecks for multimodal fusion.Advances in neural information processing systems, 34:14200–
+14213, 2021.
+[53] Kento Nishi, Yi Ding, Alex Rich, and Tobias Hollerer. Augmentation strategies for learning with noisy
+labels. InProceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition,
+pages 8022–8031, 2021.
+[54] nostalgebraist. Interpreting gpt: The logit lens.https://www.lesswrong.com/posts/
+AcKRB8wDpdaN6v6ru/interpreting-gpt-the-logit-lens, Aug. 2020. LessWrong
+blog post.
+[55] Long Ouyang, Jeffrey Wu, Xu Jiang, Diogo Almeida, Carroll Wainwright, Pamela Mishkin, Chong
+Zhang, Sandhini Agarwal, Katarina Slama, Alex Ray, et al. Training language models to follow
+instructions with human feedback.Advances in neural information processing systems, 35:27730–
+27744, 2022.
+[56] Jeongjin Park, Nicole Yang, and Nisha Chandramoorthy. When are dynamical systems learned from
+time series data statistically accurate?Advances in Neural Information Processing Systems, 37:43975–
+44008, 2024.
+[57] Se Jin Park, Julian Salazar, Aren Jansen, Keisuke Kinoshita, Yong Man Ro, and RJ Skerry-Ryan.
+Long-form speech generation with spoken language models. InProceedings of the 42nd International
+Conference on Machine Learning (ICML), 2025.
+[58] Bo Peng, Eric Alcaide, Quentin Anthony, Alon Albalak, Samuel Arcadinho, Stella Biderman, Huanqi
+Cao, Xin Cheng, Michael Chung, Matteo Grella, et al. Rwkv: Reinventing rnns for the transformer
+era.arXiv preprint arXiv:2305.13048, 2023.
+[59] Qwen Team. Qwen3 Technical Report, 2025.
+[60] Nils Reimers and Iryna Gurevych. Sentence-bert: Sentence embeddings using siamese bert-networks.
+InProceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and
+the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP), pages
+3982–3992, 2019.
+[61] Adriana Romero, Nicolas Ballas, Samira Ebrahimi Kahou, Antoine Chassang, Carlo Gatta, and Yoshua
+Bengio. Fitnets: Hints for thin deep nets.arXiv preprint arXiv:1412.6550, 2014.
+14
+
+===== PAGE 15 =====
+[62] Victor Sanh, Lysandre Debut, Julien Chaumond, and Thomas Wolf. Distilbert, a distilled version of
+bert: smaller, faster, cheaper and lighter.arXiv preprint arXiv:1910.01108, 2019.
+[63] Noah Shinn, Federico Cassano, Ashwin Gopinath, Karthik Narasimhan, and Shunyu Yao. Reflexion:
+Language agents with verbal reinforcement learning. InAdvances in Neural Information Processing
+Systems, volume 36, 2023.
+[64] Aliaksandr Siarohin, St ´ephane Lathuili`ere, Sergey Tulyakov, Elisa Ricci, and Nicu Sebe. First order
+motion model for image animation. InAdvances in Neural Information Processing Systems (NeurIPS),
+volume 32, 2019.
+[65] Hongjin Su, Shuyang Jiang, Yuhang Lai, Haoyuan Wu, Boao Shi, Che Liu, Qian Liu, and Tao Yu.
+EvoR: Evolving retrieval for code generation. In Yaser Al-Onaizan, Mohit Bansal, and Yun-Nung
+Chen, editors,Findings of the Association for Computational Linguistics: EMNLP 2024, pages 2538–
+2554, Miami, Florida, USA, Nov. 2024. Association for Computational Linguistics.
+[66] Siqi Sun, Yu Cheng, Zhe Gan, and Jingjing Liu. Patient knowledge distillation for bert model compres-
+sion. InProceedings of the 2019 Conference on Empirical Methods in Natural Language Processing
+and the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP), pages
+4323–4332, 2019.
+[67] Rohan Taori, Ishaan Gulrajani, Tianyi Zhang, Yann Dubois, Xuechen Li, Carlos Guestrin, Percy Liang,
+and Tatsunori B Hashimoto. Stanford alpaca: An instruction-following llama model, 2023.
+[68] Iulia Turc, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. Well-read students learn better:
+On the importance of pre-training compact models. InProceedings of the 58th Annual Meeting of the
+Association for Computational Linguistics. Association for Computational Linguistics, 2020.
+[69] Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N Gomez, Łukasz
+Kaiser, and Illia Polosukhin. Attention is all you need.Advances in neural information processing
+systems, 30, 2017.
+[70] Guanzhi Wang, Yuqi Xie, Yunfan Jiang, Ajay Mandlekar, Chaowei Xiao, Yuke Zhu, Linxi Fan, and
+Anima Anandkumar. V oyager: An open-ended embodied agent with large language models.Advances
+in Neural Information Processing Systems (NeurIPS), 2023.
+[71] Wenhui Wang, Furu Wei, Li Dong, Hangbo Bao, Nan Yang, and Ming Zhou. MiniLM: Deep self-
+attention distillation for task-agnostic compression of pre-trained transformers. InAdvances in Neural
+Information Processing Systems, 2020.
+[72] Xinpeng Wang, Leonie Weissweiler, Hinrich Sch ¨utze, and Barbara Plank. How to distill your BERT:
+An empirical study on the impact of weight initialisation and distillation objectives. InProceedings
+of the 61st Annual Meeting of the Association for Computational Linguistics, Volume 2: Short Papers.
+Association for Computational Linguistics, 2023.
+[73] Yizhong Wang, Yeganeh Kordi, Swaroop Mishra, Alisa Liu, Noah A Smith, Daniel Khashabi, and
+Hannaneh Hajishirzi. Self-instruct: Aligning language models with self-generated instructions. In
+Proceedings of the 61st annual meeting of the association for computational linguistics (volume 1:
+long papers), pages 13484–13508, 2023.
+[74] Yizhong Wang, Swaroop Mishra, Pegah Alipoormolabashi, Yeganeh Kordi, Amirreza Mirzaei,
+Atharva Naik, Arjun Ashok, Arut Selvan Dhanasekaran, Anjana Arunkumar, David Stap, et al. Super-
+naturalinstructions: Generalization via declarative instructions on 1600+ nlp tasks. InEMNLP, 2022.
+[75] Yuxiang Wei, Zhe Wang, Jiawei Liu, Yifeng Ding, and Lingming Zhang. Magicoder: Source code is
+all you need. InForty-first International Conference on Machine Learning, 2024.
+15
+
+===== PAGE 16 =====
+[76] Yuqiao Wen, Zichao Li, Wenyu Du, and Lili Mou. f-divergence minimization for sequence-level
+knowledge distillation. InProceedings of the 61st Annual Meeting of the Association for Computa-
+tional Linguistics (Volume 1: Long Papers), pages 10817–10834, 2023.
+[77] Taiqiang Wu, Chaofan Tao, Jiahao Wang, Runming Yang, Zhe Zhao, and Ngai Wong. Rethink-
+ing kullback-leibler divergence in knowledge distillation for large language models.arXiv preprint
+arXiv:2404.02657, 2024.
+[78] Mengzhou Xia, Zexuan Zhong, and Danqi Chen. Structured pruning learns compact and accurate
+models. InProceedings of the 60th Annual Meeting of the Association for Computational Linguistics.
+Association for Computational Linguistics, 2022.
+[79] Tianbao Xie, Danyang Zhang, Jixuan Chen, Xiaochuan Li, Siheng Zhao, Ruisheng Cao, Toh Jing Hua,
+Zhoujun Cheng, Dongchan Shin, Fangyu Lei, Yitao Liu, Yitao Xu, Shuyan Zhou, Silvio Savarese,
+Caiming Xiong, Victor Zhong, and Tao Yu. OSWorld: Benchmarking multimodal agents for open-
+ended tasks in real computer environments. InAdvances in Neural Information Processing Systems,
+volume 37, 2024.
+[80] Yiran Xu, Taesung Park, Richard Zhang, Yang Zhou, Eli Shechtman, Feng Liu, Jia-Bin Huang, and
+Difan Liu. Videogigagan: Towards detail-rich video super-resolution. InProceedings of the IEEE/CVF
+Conference on Computer Vision and Pattern Recognition (CVPR), pages 2139–2149, 2025.
+[81] Nicole Tianjiao Yang. Pathwise learning of stochastic dynamical systems with partial observations.
+arXiv preprint arXiv:2601.21860, 2025.
+[82] Nicole Tianjiao Yang and Tomoyuki Ichiba. Finding the nonnegative minimal solutions of cauchy pdes
+in a volatility-stabilized market.SIAM Journal on Financial Mathematics, 16(4):SC76–SC87, 2025.
+[83] Junho Yim, Donggyu Joo, Jihoon Bae, and Junmo Kim. A gift from knowledge distillation: Fast
+optimization, network minimization and transfer learning. InProceedings of the IEEE Conference on
+Computer Vision and Pattern Recognition, 2017.
+[84] Xiao Yu, Baolin Peng, Vineeth Vajipey, Hao Cheng, Michel Galley, Jianfeng Gao, and Zhou Yu.
+Exact: Teaching ai agents to explore with reflective-mcts and exploratory learning. InInternational
+Conference on Learning Representations (ICLR), 2025.
+[85] Sergey Zagoruyko and Nikos Komodakis. Paying more attention to attention: Improving the perfor-
+mance of convolutional neural networks via attention transfer. InInternational Conference on Learning
+Representations, 2017.
+[86] Chi Zhang, Zhao Yang, Jiaxuan Liu, Yucheng Han, Xin Chen, Zebiao Huang, Bin Fu, and Gang Yu.
+Appagent: Multimodal agents as smartphone users. InProceedings of the IEEE/CVF Conference on
+Computer Vision and Pattern Recognition (CVPR), 2024.
+[87] Lianmin Zheng, Wei-Lin Chiang, Ying Sheng, Siyuan Zhuang, Zhanghao Wu, Yonghao Zhuang, Zi
+Lin, Zhuohan Li, Dacheng Li, Eric Xing, et al. Judging llm-as-a-judge with mt-bench and chatbot
+arena.Advances in neural information processing systems, 36:46595–46623, 2023.
+[88] Shangchen Zhou, Peiqing Yang, Jianyi Wang, Yihang Luo, and Chen Change Loy. Upscale-a-video:
+Temporal-consistent diffusion model for real-world video super-resolution. InProceedings of the
+IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), pages 2535–2545, 2024.
+[89] Tianyi Zhu, Dongwei Ren, Qilong Wang, Xiaohe Wu, and Wangmeng Zuo. Generative inbetweening
+through frame-wise conditions-driven video generation. InProceedings of the IEEE/CVF Conference
+on Computer Vision and Pattern Recognition (CVPR), pages 27968–27978, 2025.
+[90] Brianna Zitkovich, Tianhe Yu, Sichun Xu, Peng Xu, Ted Xiao, Fei Xia, Jialin Wu, Paul Wohlhart,
+Stefan Welker, Ayzaan Wahid, et al. Rt-2: Vision-language-action models transfer web knowledge to
+robotic control. InConference on Robot Learning, pages 2165–2183. PMLR, 2023.1
+
+===== PAGE 17 =====
+Facilities, Equipment, and Other Resources
+The proposed project will leverage established computational and collaborative resources at Auburn Uni-
+versity as well as shared infrastructure provided through existing interdisciplinary research centers. These
+resources are sufficient to support the technical and dissemination components of the proposed research. Ex-
+isting collaborative mechanisms between the participating investigators, including joint research meetings
+and co-mentored students, will facilitate efficient coordination across sites. These resources are sufficient to
+support the proposed research activities without reliance on additional external facilities.
+The PIs and all participating personnel will have full access to resources provided by the Department
+of Computer Science and Software Engineering’s Assistive Intelligence Lab directed by PI Ding at Auburn
+University. Auburn University is designated as a National Security Agency (NSA) and Department of
+Homeland Security (DHS) Center of Academic Excellence in Cyber Research (CAE-R), Cyber Operations
+(CAE-CO), and Cyber Defense (CAE-CD). These designations reflect strengths in cybersecurity research
+and education and provide an established environment for interdisciplinary collaboration, graduate training,
+and dissemination of research outputs. The project will draw on these capabilities to support research
+execution and integration of results into graduate curricula and research training activities.
+Assistive Intelligence Lab:
+The Assistive Intelligence Lab focuses on the development of novel AI algorithms that can better understand
+human behaviors to facilitate naturalistic human-AI integration. The lab has approximately 8 members in-
+cluding PhD, MS, Undergraduate, and visitors. Auburn’s CSSE department provides space and research
+labs for its faculty and graduate students. the Assistive Intelligence Lab occupies approximately 500 sq ft
+in addition to shared meeting room and facilities spaces. The CSSE department has also public access com-
+puter labs and special purpose laboratories for research. Large conference rooms are available to practice
+presentations and to hold meetings. Other smaller meeting rooms are also available for collaboration and
+discussions. High-speed wired and wireless network access is available in all areas. The CSSE department
+also has a dedicated server room for use by its faculty.
+Equipment:The PI’s lab has four dedicated servers are on-site which has 8xNvidia RTX 4090, 4x RTX
+5090, 4x RTX PRO 6000. One additional server with 6x RTX PRO 6000 cards for development and fine
+tuning of deep learning models is in the department’s server room. These servers are connected to 28TB of
+network attached storage over a 10Gbps network. Existing students also have access to multiple laptops and
+2 workstations. Access to equipment will be provided via VPN.
+Alabama Supercomputer Authority (ASA):ASA provides High Performance Computing (HPC) services
+at no cost to faculty, staff and enrolled students of public schools, colleges, and universities in Alabama.
+This allows universities to create a trained workforce with the skills needed for jobs in engineering, science,
+mathematics, aerospace and medical research fields. Dr. Ding and his students have been provided access
+to these resources. The HPC system contains 5,056 x86-64 Proc, Shared/Distributed Memory Architecture,
+InfiniBand high speed/low latency network, 512GB-4TB memory per node, 33 TB total memory, 1.4 PB
+shared storage via Panasas, A100 and H100 GPUs.
+Office:All faculty members have an office, and there is adequate space to host additional graduate research
+assistants on this project.
+Other Resources:Departments provides the space and basic networking services to carry out the experi-
+ments, and secretarial and administrative support as well as general-purpose office equipment, such as fax,
+printers, and photocopiers.
+2
